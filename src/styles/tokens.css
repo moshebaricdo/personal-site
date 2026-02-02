@@ -1,0 +1,112 @@
+/*
+ * Design Tokens
+ * Core design system values as CSS custom properties
+ */
+
+:root {
+  /* ========================================
+   * Typography
+   * ======================================== */
+  
+  /* Font families */
+  --font-serif: 'Signifier', Georgia, serif;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+  
+  /* Type scale */
+  --text-xs: 0.75rem;     /* 12px - captions, metadata */
+  --text-sm: 0.8125rem;   /* 13px - secondary text, code */
+  --text-base: 0.875rem;  /* 14px - body text */
+  --text-lg: 1.125rem;    /* 18px - lead paragraphs */
+  --text-xl: 1.5rem;      /* 24px - section headings */
+  --text-2xl: 2rem;       /* 32px - page titles (rare) */
+  
+  /* Line heights */
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
+  
+  /* ========================================
+   * Spacing
+   * ======================================== */
+  
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-32: 8rem;     /* 128px */
+  
+  /* ========================================
+   * Colors - Light Mode (Default)
+   * ======================================== */
+  
+  /* Backgrounds */
+  --bg-primary: #ffffff;
+  --bg-secondary: #fafafa;
+  --bg-tertiary: #f5f5f5;
+  
+  /* Text */
+  --text-primary: #171717;
+  --text-secondary: #525252;
+  --text-tertiary: #737373;
+  --text-quaternary: #a3a3a3;
+  
+  /* Borders */
+  --border-primary: #e5e5e5;
+  --border-secondary: #f5f5f5;
+  
+  /* Accent - appears on interaction only */
+  --accent: #000000;
+  --accent-hover: #171717;
+  
+  /* ========================================
+   * Animation
+   * ======================================== */
+  
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  
+  /* ========================================
+   * Layout
+   * ======================================== */
+  
+  --container-width: 42rem;     /* 672px */
+  --container-narrow: 40rem;    /* 640px */
+}
+
+/* ========================================
+ * Dark Mode
+ * ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Backgrounds */
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #171717;
+    --bg-tertiary: #262626;
+    
+    /* Text */
+    --text-primary: #fafafa;
+    --text-secondary: #d4d4d4;
+    --text-tertiary: #a3a3a3;
+    --text-quaternary: #737373;
+    
+    /* Borders */
+    --border-primary: #262626;
+    --border-secondary: #171717;
+    
+    /* Accent */
+    --accent: #ffffff;
+    --accent-hover: #e5e5e5;
+  }
+}

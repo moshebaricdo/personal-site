@@ -1,0 +1,50 @@
+---
+description: Core design philosophy for crafted portfolio aesthetic
+alwaysApply: true
+---
+
+# Portfolio Design Principles
+
+This portfolio follows design principles inspired by elite product designer portfolios (Josh Puckett, Brian Lovin, Raphael Salaja, Noah Levin).
+
+## Core Philosophy
+
+### Restraint Over Decoration
+- No gradients, excessive shadows, or rounded corners everywhere
+- No mixing multiple font families unnecessarily
+- Every element must earn its place
+
+### Whitespace Is Design
+- Generous spacing is intentional, not padding
+- Let content breathe - don't fill every gap
+- Negative space creates hierarchy and focus
+
+### Color as Reward
+- Base aesthetic is near-monochrome (black, white, grays)
+- Color appears on interaction (hover, focus) not everywhere
+- One accent color maximum, used sparingly
+
+### One Signature Interaction
+- Each page should have one memorable micro-interaction
+- Examples: blur-focus effect, morphing menu, letter-by-letter reveal
+- Quality over quantity - one perfect detail beats ten mediocre ones
+
+## Anti-Patterns to Avoid
+
+```
+❌ Generic Tailwind utility soup without intentionality
+❌ Gradients and shadows on everything
+❌ Multiple competing accent colors
+❌ Animations without purpose
+❌ Decorative elements that don't serve content
+❌ Stock photography or placeholder content
+```
+
+## Quality Checklist
+
+Before shipping any component:
+- [ ] Does it work without color? (monochrome test)
+- [ ] Is the spacing consistent with our rhythm?
+- [ ] Does the hover state feel intentional?
+- [ ] Would removing any element improve it?
+- [ ] Does it pass the "is this a template?" test?

@@ -1,0 +1,15 @@
+# Video assets directory
+
+Project demo videos and motion assets.
+
+## Recommendations
+
+- Use MP4 with H.264 codec for broad compatibility
+- Keep file sizes reasonable (aim for <5MB for thumbnails)
+- Consider WebM as additional format for better compression
+
+## Structure
+
+- /projects/{project-slug}/
+  - demo.mp4      - Main project demo video
+  - thumb.mp4     - Short loop for thumbnail (if using video thumbnails)

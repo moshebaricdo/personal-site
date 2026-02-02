@@ -1,0 +1,16 @@
+# Image assets directory
+
+This folder contains all image assets for the portfolio.
+
+## Structure
+
+- avatar.jpg      - Profile photo (recommended: 120x120px, square)
+- og-image.jpg    - Open Graph image for social sharing (1200x630px)
+
+## Projects
+
+Project images should be placed in subdirectories:
+- /projects/{project-slug}/
+  - hero.jpg      - Main project hero image
+  - thumb.jpg     - Thumbnail for listings (optional)
+  - *.jpg/png     - Additional project images

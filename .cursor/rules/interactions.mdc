@@ -1,0 +1,231 @@
+---
+description: Interactions - hover states, transitions, micro-animations
+globs: "**/*.css, **/*.module.css, **/*.tsx"
+alwaysApply: false
+---
+
+# Interactions & Animations
+
+## Transition Defaults
+
+Apply to all interactive elements:
+
+```css
+a, button, [role="button"] {
+  transition: 
+    color 150ms ease-out,
+    opacity 150ms ease-out,
+    background-color 150ms ease-out,
+    transform 150ms ease-out;
+}
+```
+
+## Easing Functions
+
+```css
+:root {
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+```
+
+## Link Hover Patterns
+
+Underline reveals on hover with offset:
+
+```css
+a {
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+```
+
+Alternative - color change only:
+
+```css
+.subtle-link {
+  color: var(--text-secondary);
+}
+
+.subtle-link:hover {
+  color: var(--text-primary);
+}
+```
+
+## Opacity Hover
+
+For images, icons, and cards:
+
+```css
+.card:hover {
+  opacity: 0.6;
+}
+
+/* Or inverse - start muted, brighten on hover */
+.icon {
+  opacity: 0.5;
+}
+
+.icon:hover {
+  opacity: 1;
+}
+```
+
+## Button States
+
+Include both hover AND pressed states:
+
+```css
+.button {
+  background-color: var(--bg-secondary);
+}
+
+.button:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.button:active,
+.button[data-pressed] {
+  background-color: var(--border-primary);
+  transform: scale(0.98);
+}
+```
+
+## Arrow/Chevron Movement
+
+Subtle translate on hover:
+
+```css
+.link-with-arrow:hover .arrow {
+  transform: translateX(2px);
+}
+
+.arrow {
+  transition: transform 150ms ease-out;
+}
+```
+
+## Scrollbar Hiding
+
+For cleaner scroll areas:
+
+```css
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+```
+
+## Focus Ring Pattern
+
+Visible only on keyboard navigation:
+
+```css
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+```
+
+## Signature Interaction: Blur Focus Effect
+
+When hovering one item, blur others (use sparingly):
+
+```css
+.interactive-list:hover .item:not(:hover) {
+  opacity: 0.5;
+  filter: blur(2px);
+  transition: 
+    opacity 250ms ease-out,
+    filter 250ms ease-out;
+}
+
+.item {
+  transition: 
+    opacity 250ms ease-out,
+    filter 250ms ease-out;
+}
+```
+
+## Video Thumbnail Placeholder
+
+Blur placeholder while video loads:
+
+```css
+.video-container {
+  position: relative;
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  filter: blur(32px);
+  transform: scale(1.2);
+  z-index: 1;
+}
+
+.video {
+  position: relative;
+  z-index: 2;
+}
+```
+
+## Animation Anti-Patterns
+
+```css
+/* ❌ Avoid */
+transition: all 0.3s; /* Too vague, too slow */
+animation: bounce 1s infinite; /* Distracting */
+transform: scale(1.1); /* Too aggressive */
+
+/* ✅ Prefer */
+transition: opacity 150ms ease-out; /* Specific */
+transform: translateX(2px); /* Subtle */
+```
+
+## Reduced Motion
+
+Respect user preferences:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+## Framer Motion Defaults
+
+If using Framer Motion for React:
+
+```tsx
+const springTransition = {
+  type: "spring",
+  stiffness: 400,
+  damping: 30
+};
+
+const fadeIn = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  transition: { duration: 0.15 }
+};
+```

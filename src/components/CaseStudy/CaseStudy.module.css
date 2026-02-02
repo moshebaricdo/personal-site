@@ -1,0 +1,407 @@
+/* ========================================
+ * Case Study Hero
+ * ======================================== */
+
+.hero {
+  padding: var(--space-16) 0 var(--space-12);
+}
+
+.heroSeparator {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+
+.tag {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-quaternary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-3);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.hook {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+  max-width: 32rem;
+  margin-bottom: var(--space-8);
+}
+
+.meta {
+  display: flex;
+  gap: var(--space-8);
+}
+
+.metaItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.metaLabel {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-quaternary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.metaValue {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+/* ========================================
+ * Chapter
+ * ======================================== */
+
+.chapter {
+  margin-top: var(--space-16);
+}
+
+.chapterTitle {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-quaternary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-6);
+}
+
+
+/* ========================================
+ * Card Stack (Interactive)
+ * ======================================== */
+
+.cardStack {
+  position: relative;
+}
+
+/* Counter positioned at top right, aligned with chapter title */
+.stackCounter {
+  position: absolute;
+  top: -38px;
+  right: 0;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-quaternary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+}
+
+.stackContainer {
+  position: relative;
+}
+
+.stackCard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 32px);
+  min-height: 126px;
+  padding: var(--space-6);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  transition: 
+    transform var(--duration-normal) var(--ease-out),
+    opacity var(--duration-normal) var(--ease-out);
+  
+  /* Position based on stack position */
+  transform: translateX(calc(var(--stack-pos) * 16px)) scale(calc(1 - var(--stack-pos) * 0.02));
+  z-index: calc(10 - var(--stack-pos));
+  opacity: calc(1 - var(--stack-pos) * 0.12);
+  
+  /* Hide cards beyond position 3 */
+  visibility: visible;
+}
+
+/* Active card */
+.stackCard[data-active="true"] {
+  position: relative;
+  cursor: default;
+  z-index: 100;
+}
+
+/* Non-active cards - clickable with arrow cursor */
+.stackCard:not([data-active="true"]) {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23737373' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E") 12 12, pointer;
+}
+
+/* Cards far back - hide them */
+.stackCard[style*="--stack-pos: 4"],
+.stackCard[style*="--stack-pos: 5"],
+.stackCard[style*="--stack-pos: 6"],
+.stackCard[style*="--stack-pos: 7"] {
+  visibility: hidden;
+}
+
+.stackCardTitle {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: 0;
+  margin-bottom: var(--space-2);
+}
+
+.stackCardBody {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+  opacity: 0.9;
+}
+
+/* Mobile - no stacking, just show active */
+@media (max-width: 640px) {
+  .cardStack {
+    padding-right: 0;
+  }
+  
+  .stackCounter {
+    position: static;
+    display: block;
+    margin-bottom: var(--space-3);
+  }
+  
+  .stackCard {
+    width: 100%;
+    transform: none !important;
+    opacity: 1 !important;
+    display: none;
+    cursor: pointer !important;
+  }
+  
+  .stackCard[data-active="true"] {
+    display: block;
+  }
+}
+
+/* ========================================
+ * Figure Stack (Interactive)
+ * ======================================== */
+
+.figureStack {
+  position: relative;
+}
+
+/* Counter positioned at top right, aligned with chapter title */
+.figureStack .stackCounter {
+  position: absolute;
+  top: -38px;
+  right: 0;
+}
+
+.figureStackContainer {
+  position: relative;
+}
+
+.stackFigure {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 32px);
+  margin: 0;
+  transition: 
+    transform var(--duration-normal) var(--ease-out),
+    opacity var(--duration-normal) var(--ease-out);
+  
+  transform: translateX(calc(var(--stack-pos) * 16px)) scale(calc(1 - var(--stack-pos) * 0.02));
+  z-index: calc(10 - var(--stack-pos));
+  opacity: calc(1 - var(--stack-pos) * 0.12);
+}
+
+.stackFigure[data-active="true"] {
+  position: relative;
+  cursor: default;
+  z-index: 100;
+}
+
+/* Non-active figures - clickable with arrow cursor */
+.stackFigure:not([data-active="true"]) {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23737373' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E") 12 12, pointer;
+}
+
+/* Hide figures beyond position 3 */
+.stackFigure[style*="--stack-pos: 4"],
+.stackFigure[style*="--stack-pos: 5"],
+.stackFigure[style*="--stack-pos: 6"],
+.stackFigure[style*="--stack-pos: 7"] {
+  visibility: hidden;
+}
+
+.stackImagePlaceholder {
+  width: 100%;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-quaternary);
+}
+
+.figureCaption {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+  margin-top: var(--space-3);
+  font-style: italic;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .figureStack {
+    padding-right: 0;
+  }
+  
+  .figureStack .stackCounter {
+    position: static;
+    display: block;
+    margin-bottom: var(--space-3);
+  }
+  
+  .stackFigure {
+    width: 100%;
+    transform: none !important;
+    opacity: 1 !important;
+    display: none;
+    cursor: pointer !important;
+  }
+  
+  .stackFigure[data-active="true"] {
+    display: block;
+  }
+}
+
+/* ========================================
+ * Figure / Image Placeholder
+ * ======================================== */
+
+.figure {
+  margin-top: var(--space-6);
+}
+
+.figure + .figure {
+  margin-top: var(--space-4);
+}
+
+.imagePlaceholder {
+  width: 100%;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-quaternary);
+}
+
+.caption {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+  margin-top: var(--space-2);
+  font-style: italic;
+}
+
+/* ========================================
+ * Stats
+ * ======================================== */
+
+.statRow {
+  display: flex;
+  gap: var(--space-12);
+  margin-bottom: var(--space-8);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.statValue {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.statLabel {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-quaternary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ========================================
+ * Prose (Context, Learnings)
+ * ======================================== */
+
+.prose {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+
+.prose p + p {
+  margin-top: var(--space-4);
+}
+
+.prose ul {
+  margin-top: var(--space-4);
+  padding-left: var(--space-4);
+}
+
+.prose li {
+  margin-top: var(--space-2);
+}
+
+.prose li::marker {
+  color: var(--text-quaternary);
+}
+
+.prose li {
+  list-style-type: disc;
+}
+
+.subheading {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-3);
+}
+
+/* ========================================
+ * Separator
+ * ======================================== */
+
+.separator {
+  width: 3rem;
+  height: 1px;
+  background-color: var(--border-primary);
+  margin: var(--space-8) 0;
+}
+
+/* ========================================
+ * Page Bottom Padding
+ * ======================================== */
+
+.pageBottom {
+  height: var(--space-20);
+}

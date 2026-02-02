@@ -1,0 +1,104 @@
+.wrapper {
+  position: relative;
+}
+
+/* Trigger button - minimal, blends with nav links */
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: 
+    color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+
+.trigger:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+}
+
+/* Persist hover state when menu is open */
+.trigger[data-open="true"] {
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+}
+
+/* Container for icon swap - maintains size during transition */
+.iconContainer {
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+
+/* Icons positioned absolutely for crossfade */
+.iconWrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dropdown positioned below trigger */
+.dropdown {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  z-index: 50;
+  min-width: 160px;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.04);
+  transform-origin: top right;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dropdown {
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.3),
+      0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.content {
+  padding: var(--space-2);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border-radius: 8px;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.item:hover {
+  background-color: var(--bg-secondary);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  color: var(--text-tertiary);
+}
+
+.icon svg {
+  width: 16px;
+  height: 16px;
+}

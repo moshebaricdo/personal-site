@@ -1,0 +1,207 @@
+---
+description: React component patterns for portfolio elements
+globs: "**/*.tsx, **/*.jsx"
+alwaysApply: false
+---
+
+# Component Patterns
+
+## Hero Section Structure
+
+The hero follows a consistent vertical flow:
+
+```tsx
+function Hero() {
+  return (
+    <header className={styles.hero}>
+      {/* 1. Avatar */}
+      <Image
+        src="/avatar.jpg"
+        alt="Your Name"
+        width={60}
+        height={60}
+        className={styles.avatar}
+        draggable={false}
+      />
+      
+      {/* 2. Name */}
+      <h1 className={styles.name}>Your Name</h1>
+      
+      {/* 3. Tagline - same size as name, secondary color */}
+      <p className={styles.tagline}>
+        Designer at Company, based in City.
+      </p>
+      
+      {/* 4. Social links */}
+      <nav className={styles.socialLinks}>
+        <SocialLink href="https://x.com/handle" icon={<XIcon />} />
+        <SocialLink href="https://github.com/handle" icon={<GitHubIcon />} />
+      </nav>
+    </header>
+  );
+}
+```
+
+## Link List Pattern
+
+Two-column on desktop, single column on mobile:
+
+```tsx
+function ProjectList({ projects }) {
+  return (
+    <ul className={styles.projectList}>
+      {projects.map((project) => (
+        <li key={project.slug} className={styles.projectItem}>
+          <Link href={project.url} className={styles.projectLink}>
+            <span className={styles.projectTitle}>{project.title}</span>
+            <span className={styles.projectDescription}>
+              {project.description}
+            </span>
+            {project.external && <ExternalIcon />}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+## External Link Indicator
+
+Always indicate outbound links:
+
+```tsx
+function ExternalLink({ href, children }) {
+  return (
+    <a 
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={styles.externalLink}
+    >
+      {children}
+      <svg 
+        width={16} 
+        height={16} 
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path 
+          stroke="currentColor" 
+          strokeWidth={1.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M17.25 15.25V6.75H8.75M17 7L6.75 17.25"
+        />
+      </svg>
+    </a>
+  );
+}
+```
+
+## Video Thumbnail Card
+
+For project showcases with motion:
+
+```tsx
+function ProjectCard({ project }) {
+  return (
+    <Link href={project.url} className={styles.projectCard}>
+      <div className={styles.thumbnail}>
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          src={project.videoSrc}
+          className={styles.video}
+        />
+      </div>
+    </Link>
+  );
+}
+```
+
+## Semantic HTML Requirements
+
+Always use proper heading hierarchy:
+
+```tsx
+// ❌ Bad
+<div className="title">Page Title</div>
+<div className="section-title">Section</div>
+
+// ✅ Good
+<h1>Page Title</h1>
+<section>
+  <h2>Section</h2>
+</section>
+```
+
+## Accessibility Patterns
+
+```tsx
+// Icon buttons need labels
+<button aria-label="Open menu">
+  <MenuIcon aria-hidden="true" />
+</button>
+
+// Links should be descriptive
+<a href="/projects/bloom">
+  View Bloom project {/* Not just "Click here" */}
+</a>
+
+// Images need alt text
+<Image 
+  src="/project.jpg" 
+  alt="Screenshot of the Bloom menu component"
+/>
+
+// Decorative images
+<Image 
+  src="/pattern.svg" 
+  alt="" 
+  aria-hidden="true"
+/>
+```
+
+## Section Component Pattern
+
+Consistent section wrapper:
+
+```tsx
+function Section({ title, children }) {
+  return (
+    <section className={styles.section}>
+      {title && (
+        <>
+          <h2 className={styles.sectionTitle}>{title}</h2>
+          <div className={styles.separator} />
+        </>
+      )}
+      {children}
+    </section>
+  );
+}
+```
+
+## Avoid These Patterns
+
+```tsx
+// ❌ Inline styles
+<div style={{ marginTop: 20, color: '#333' }}>
+
+// ❌ Generic div soup
+<div className="wrapper">
+  <div className="container">
+    <div className="content">
+
+// ❌ Non-semantic buttons
+<div onClick={handleClick}>Click me</div>
+
+// ✅ Use semantic elements
+<button onClick={handleClick}>Click me</button>
+<nav>...</nav>
+<main>...</main>
+<article>...</article>
+```

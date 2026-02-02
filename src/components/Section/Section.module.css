@@ -1,0 +1,17 @@
+.section {
+  margin-top: var(--space-12);
+}
+
+.title {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-quaternary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-6);
+}
+
+.content {
+  /* Container for section content */
+}

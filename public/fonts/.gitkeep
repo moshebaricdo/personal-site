@@ -1,0 +1,18 @@
+# Font files directory
+
+Custom font files for the portfolio.
+
+## Required Fonts
+
+- signifier-regular.woff2   - Primary serif font (headings)
+- signifier-medium.woff2    - Medium weight variant (optional)
+
+## Font Loading
+
+Fonts are preloaded in the root layout for optimal performance.
+Only include weights that are actually used to minimize bundle size.
+
+## Licensing
+
+Ensure you have proper licenses for any custom fonts used.
+System fonts (system-ui) are used for body text and don't require files.

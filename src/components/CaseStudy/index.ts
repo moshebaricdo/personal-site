@@ -6,4 +6,5 @@ export { CardGrid } from './CardGrid';
 export { CardStack } from './CardStack';
 export { Figure } from './Figure';
 export { FigureStack } from './FigureStack';
+export { NextCaseStudy } from './NextCaseStudy';
 export { StatRow } from './StatRow';

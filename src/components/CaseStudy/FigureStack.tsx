@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import styles from './CaseStudy.module.css';
 
 interface FigureData {
@@ -9,14 +9,27 @@ interface FigureData {
 }
 
 interface FigureStackProps {
+  title: string;
   figures: FigureData[];
 }
 
-export function FigureStack({ figures }: FigureStackProps) {
+export function FigureStack({ title, figures }: FigureStackProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Loop through figures
-  const goNext = () => setActiveIndex((i) => (i + 1) % figures.length);
+  const goNext = useCallback(() => setActiveIndex((i) => (i + 1) % figures.length), [figures.length]);
+  const goPrev = useCallback(() => setActiveIndex((i) => (i - 1 + figures.length) % figures.length), [figures.length]);
+
+  // Keyboard navigation
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      goNext();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      goPrev();
+    }
+  }, [goNext, goPrev]);
 
   // Get position relative to active (with wrapping)
   const getStackPosition = (index: number) => {
@@ -26,12 +39,19 @@ export function FigureStack({ figures }: FigureStackProps) {
   };
 
   return (
-    <div className={styles.figureStack}>
-      <span className={styles.stackCounter}>
-        {activeIndex + 1} / {figures.length}
-      </span>
-      
-      <div className={styles.figureStackContainer}>
+    <section className={styles.stackSection}>
+      <div className={styles.stackHeader}>
+        <h2 className={styles.stackTitle}>{title}</h2>
+        <span className={styles.stackDivider} aria-hidden="true" />
+        <span className={styles.stackCounter}>{activeIndex + 1}/{figures.length}</span>
+      </div>
+      <div
+        className={styles.figureStackContainer}
+        tabIndex={0}
+        role="region"
+        aria-label={`${title} carousel, ${activeIndex + 1} of ${figures.length}`}
+        onKeyDown={handleKeyDown}
+      >
         {figures.map((figure, index) => {
           const stackPos = getStackPosition(index);
           const isActive = stackPos === 0;
@@ -48,6 +68,9 @@ export function FigureStack({ figures }: FigureStackProps) {
                 className={styles.stackImagePlaceholder}
                 style={{ aspectRatio: figure.aspectRatio || '16/9' }}
               >
+                {isActive && (
+                  <span className={styles.imageTag}>{figure.caption}</span>
+                )}
                 <svg 
                   width="48" 
                   height="48" 
@@ -65,10 +88,6 @@ export function FigureStack({ figures }: FigureStackProps) {
           );
         })}
       </div>
-      
-      <figcaption className={styles.figureCaption}>
-        {figures[activeIndex].caption}
-      </figcaption>
-    </div>
+    </section>
   );
 }

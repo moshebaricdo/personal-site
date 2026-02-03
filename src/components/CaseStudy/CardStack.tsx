@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import styles from './CaseStudy.module.css';
 
 interface CardData {
@@ -9,14 +9,27 @@ interface CardData {
 }
 
 interface CardStackProps {
+  title: string;
   cards: CardData[];
 }
 
-export function CardStack({ cards }: CardStackProps) {
+export function CardStack({ title, cards }: CardStackProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Loop through cards
-  const goNext = () => setActiveIndex((i) => (i + 1) % cards.length);
+  const goNext = useCallback(() => setActiveIndex((i) => (i + 1) % cards.length), [cards.length]);
+  const goPrev = useCallback(() => setActiveIndex((i) => (i - 1 + cards.length) % cards.length), [cards.length]);
+
+  // Keyboard navigation
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      goNext();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      goPrev();
+    }
+  }, [goNext, goPrev]);
 
   // Get position relative to active (with wrapping)
   const getStackPosition = (index: number) => {
@@ -26,12 +39,19 @@ export function CardStack({ cards }: CardStackProps) {
   };
 
   return (
-    <div className={styles.cardStack}>
-      <span className={styles.stackCounter}>
-        {activeIndex + 1} / {cards.length}
-      </span>
-      
-      <div className={styles.stackContainer}>
+    <section className={styles.stackSection}>
+      <div className={styles.stackHeader}>
+        <h2 className={styles.stackTitle}>{title}</h2>
+        <span className={styles.stackDivider} aria-hidden="true" />
+        <span className={styles.stackCounter}>{activeIndex + 1}/{cards.length}</span>
+      </div>
+      <div
+        className={styles.stackContainer}
+        tabIndex={0}
+        role="region"
+        aria-label={`${title} carousel, ${activeIndex + 1} of ${cards.length}`}
+        onKeyDown={handleKeyDown}
+      >
         {cards.map((card, index) => {
           const stackPos = getStackPosition(index);
           const isActive = stackPos === 0;
@@ -50,6 +70,6 @@ export function CardStack({ cards }: CardStackProps) {
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }

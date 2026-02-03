@@ -1,11 +1,11 @@
 .main {
   min-height: 100vh;
-  padding-bottom: var(--space-8);
+  padding-bottom: var(--space-20);
 }
 
 .heroSeparator {
-  margin-top: var(--space-8);
-  margin-bottom: var(--space-8);
+  margin-top: var(--space-20);
+  margin-bottom: var(--space-20);
 }
 
 .workSection {

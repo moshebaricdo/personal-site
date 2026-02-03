@@ -3,22 +3,21 @@
  * ======================================== */
 
 .hero {
-  padding: var(--space-16) 0 var(--space-12);
+  padding-top: var(--space-16);
 }
 
 .heroSeparator {
-  margin-top: var(--space-8);
-  margin-bottom: var(--space-8);
+  width: 3rem;
+  height: 1px;
+  background-color: var(--border-primary);
+  border-radius: 1px;
+  margin-top: var(--space-20);
+  margin-bottom: var(--space-20);
 }
 
-.tag {
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
-  font-weight: 500;
-  color: var(--text-quaternary);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: var(--space-3);
+/* First section after separator - no extra margin since separator provides it */
+.firstSection {
+  margin-top: 0;
 }
 
 .title {
@@ -35,7 +34,7 @@
   line-height: var(--leading-relaxed);
   color: var(--text-secondary);
   max-width: 32rem;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-12);
 }
 
 .meta {
@@ -67,7 +66,14 @@
  * ======================================== */
 
 .chapter {
-  margin-top: var(--space-16);
+  margin-top: var(--space-12);
+}
+
+.chapterHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
 }
 
 .chapterTitle {
@@ -77,23 +83,22 @@
   color: var(--text-quaternary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-bottom: var(--space-6);
+  margin-bottom: 0;
 }
 
-
-/* ========================================
- * Card Stack (Interactive)
- * ======================================== */
-
-.cardStack {
-  position: relative;
+.chapterMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
 }
 
-/* Counter positioned at top right, aligned with chapter title */
-.stackCounter {
-  position: absolute;
-  top: -38px;
-  right: 0;
+.chapterDivider {
+  width: 1px;
+  height: 14px;
+  background-color: var(--border-primary);
+}
+
+.chapterCounter {
   font-size: var(--text-xs);
   font-weight: 500;
   color: var(--text-quaternary);
@@ -102,15 +107,62 @@
   font-variant-numeric: tabular-nums;
 }
 
+
+/* ========================================
+ * Stack Section (shared by Card & Figure stacks)
+ * ======================================== */
+
+.stackSection {
+  margin-top: var(--space-12);
+  padding-bottom: var(--space-8);
+}
+
+.stackHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.stackTitle {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-quaternary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+.stackDivider {
+  width: 1px;
+  height: 14px;
+  background-color: var(--border-primary);
+}
+
+.stackCounter {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-quaternary);
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========================================
+ * Card Stack (Interactive)
+ * ======================================== */
+
 .stackContainer {
   position: relative;
+  outline: none;
+  border-radius: 8px;
 }
 
 .stackCard {
   position: absolute;
   top: 0;
   left: 0;
-  width: calc(100% - 32px);
+  width: calc(100% - 24px);
   min-height: 126px;
   padding: var(--space-6);
   background: var(--bg-primary);
@@ -121,7 +173,7 @@
     opacity var(--duration-normal) var(--ease-out);
   
   /* Position based on stack position */
-  transform: translateX(calc(var(--stack-pos) * 16px)) scale(calc(1 - var(--stack-pos) * 0.02));
+  transform: translateX(calc(var(--stack-pos) * 8px)) translateY(calc(var(--stack-pos) * 8px));
   z-index: calc(10 - var(--stack-pos));
   opacity: calc(1 - var(--stack-pos) * 0.12);
   
@@ -136,9 +188,9 @@
   z-index: 100;
 }
 
-/* Non-active cards - clickable with arrow cursor */
+/* Non-active cards - clickable with circle arrow cursor (mirrored to point right) */
 .stackCard:not([data-active="true"]) {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23737373' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E") 12 12, pointer;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 640 640' fill='%23737373'%3E%3Cpath transform='translate(640,0) scale(-1,1)' d='M320 96C443.7 96 544 196.3 544 320C544 443.7 443.7 544 320 544C196.3 544 96 443.7 96 320C96 196.3 196.3 96 320 96zM320 576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576zM228.7 308.7C222.5 314.9 222.5 325.1 228.7 331.3L300.7 403.3C306.9 409.5 317.1 409.5 323.3 403.3C329.5 397.1 329.5 386.9 323.3 380.7L278.6 336L400 336C408.8 336 416 328.8 416 320C416 311.2 408.8 304 400 304L278.6 304L323.3 259.3C329.5 253.1 329.5 242.9 323.3 236.7C317.1 230.5 306.9 230.5 300.7 236.7L228.7 308.7z'/%3E%3C/svg%3E") 12 12, pointer;
 }
 
 /* Cards far back - hide them */
@@ -167,16 +219,6 @@
 
 /* Mobile - no stacking, just show active */
 @media (max-width: 640px) {
-  .cardStack {
-    padding-right: 0;
-  }
-  
-  .stackCounter {
-    position: static;
-    display: block;
-    margin-bottom: var(--space-3);
-  }
-  
   .stackCard {
     width: 100%;
     transform: none !important;
@@ -194,32 +236,23 @@
  * Figure Stack (Interactive)
  * ======================================== */
 
-.figureStack {
-  position: relative;
-}
-
-/* Counter positioned at top right, aligned with chapter title */
-.figureStack .stackCounter {
-  position: absolute;
-  top: -38px;
-  right: 0;
-}
-
 .figureStackContainer {
   position: relative;
+  outline: none;
+  border-radius: 8px;
 }
 
 .stackFigure {
   position: absolute;
   top: 0;
   left: 0;
-  width: calc(100% - 32px);
+  width: calc(100% - 24px);
   margin: 0;
   transition: 
     transform var(--duration-normal) var(--ease-out),
     opacity var(--duration-normal) var(--ease-out);
   
-  transform: translateX(calc(var(--stack-pos) * 16px)) scale(calc(1 - var(--stack-pos) * 0.02));
+  transform: translateX(calc(var(--stack-pos) * 8px)) translateY(calc(var(--stack-pos) * 8px));
   z-index: calc(10 - var(--stack-pos));
   opacity: calc(1 - var(--stack-pos) * 0.12);
 }
@@ -230,9 +263,9 @@
   z-index: 100;
 }
 
-/* Non-active figures - clickable with arrow cursor */
+/* Non-active figures - clickable with circle arrow cursor (mirrored to point right) */
 .stackFigure:not([data-active="true"]) {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23737373' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E") 12 12, pointer;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 640 640' fill='%23737373'%3E%3Cpath transform='translate(640,0) scale(-1,1)' d='M320 96C443.7 96 544 196.3 544 320C544 443.7 443.7 544 320 544C196.3 544 96 443.7 96 320C96 196.3 196.3 96 320 96zM320 576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576zM228.7 308.7C222.5 314.9 222.5 325.1 228.7 331.3L300.7 403.3C306.9 409.5 317.1 409.5 323.3 403.3C329.5 397.1 329.5 386.9 323.3 380.7L278.6 336L400 336C408.8 336 416 328.8 416 320C416 311.2 408.8 304 400 304L278.6 304L323.3 259.3C329.5 253.1 329.5 242.9 323.3 236.7C317.1 230.5 306.9 230.5 300.7 236.7L228.7 308.7z'/%3E%3C/svg%3E") 12 12, pointer;
 }
 
 /* Hide figures beyond position 3 */
@@ -252,27 +285,36 @@
   align-items: center;
   justify-content: center;
   color: var(--text-quaternary);
+  position: relative;
 }
 
-.figureCaption {
-  font-size: var(--text-sm);
-  color: var(--text-tertiary);
-  margin-top: var(--space-3);
-  font-style: italic;
+.imageTag {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  border: 1px solid var(--border-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+  .imageTag {
+    color: var(--text-primary);
+    background: rgba(10, 10, 10, 0.6);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
 }
 
 /* Mobile */
 @media (max-width: 640px) {
-  .figureStack {
-    padding-right: 0;
-  }
-  
-  .figureStack .stackCounter {
-    position: static;
-    display: block;
-    margin-bottom: var(--space-3);
-  }
-  
   .stackFigure {
     width: 100%;
     transform: none !important;
@@ -395,7 +437,26 @@
   width: 3rem;
   height: 1px;
   background-color: var(--border-primary);
-  margin: var(--space-8) 0;
+  margin: var(--space-20) 0;
+}
+
+/* ========================================
+ * Next Case Study
+ * ======================================== */
+
+.nextSection {
+  margin-top: var(--space-10);
+}
+
+.nextLabel {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-quaternary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-4);
 }
 
 /* ========================================

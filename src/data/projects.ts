@@ -12,14 +12,19 @@ export const projects: Project[] = [
   {
     slug: 'dsco',
     title: 'DSCO',
-    description: 'The design system behind 80M+ students and teachers.',
+    description: 'The design system supporting 100M+ students and teachers.',
     url: '/projects/dsco',
   },
   {
-    slug: 'project-two',
-    title: 'Project Two',
-    description: 'Another project with a concise description of the work.',
-    url: '/projects/project-two',
+    slug: 'web-lab-2',
+    title: 'Web Lab 2',
+    description: 'An AI-powered IDE for the next generation of coders.',
+    url: '/projects/web-lab-2',
   },
-  // Add more projects here
+  {
+    slug: 'code-org-cms',
+    title: 'Code.org CMS',
+    description: 'Reimagining the marketing site with a modular page builder.',
+    url: '/projects/code-org-cms',
+  },
 ];

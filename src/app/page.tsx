@@ -13,7 +13,7 @@ export default function HomePage() {
         <Hero />
         <div className={`separator ${styles.heroSeparator}`} />
         
-        <Section id="work" title="Selected Work" className={styles.workSection}>
+        <Section id="work" title="Recent Work" className={styles.workSection}>
           <ProjectList />
           <ArchiveLink />
         </Section>

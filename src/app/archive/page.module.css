@@ -1,0 +1,32 @@
+.main {
+  min-height: 100vh;
+  padding-bottom: var(--space-20);
+}
+
+.header {
+  padding-top: var(--space-16);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.subtitle {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+
+.heroSeparator {
+  margin-top: var(--space-20);
+  margin-bottom: var(--space-20);
+}
+
+.pageBottom {
+  height: var(--space-20);
+}

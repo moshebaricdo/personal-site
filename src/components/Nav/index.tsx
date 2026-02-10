@@ -2,15 +2,56 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { BloomMenu, BloomMenuItem } from '../BloomMenu';
 import { XIcon, GitHubIcon, LinkedInIcon } from '../icons';
+import { categories } from '../Archive/data';
+import { projects } from '@/data/projects';
 import styles from './Nav.module.css';
 
 export function Nav() {
   const pathname = usePathname();
+  const router = useRouter();
   const isHome = pathname === '/';
   const isCaseStudy = pathname?.startsWith('/projects/');
+  const isArchive = pathname?.startsWith('/archive');
+  
+  // Detect active archive category from URL
+  const archiveCategorySlug = pathname?.match(/^\/archive\/(\w+)/)?.[1];
+  const activeCategory = categories.find(c => c.slug === archiveCategorySlug);
+
+  // Detect active project from URL
+  const projectSlug = pathname?.match(/^\/projects\/([^/]+)/)?.[1];
+  const activeProject = projects.find(p => p.slug === projectSlug);
+  
+  // Track if we've been to another page and just returned home
+  // Using sessionStorage because refs reset on component remount during navigation
+  const [inCooldown, setInCooldown] = useState(false);
+  
+  const getHasLeftHome = () => {
+    if (typeof window === 'undefined') return false;
+    return sessionStorage.getItem('hasLeftHome') === 'true';
+  };
+  
+  const setHasLeftHome = (value: boolean) => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('hasLeftHome', String(value));
+    }
+  };
+  
+  useEffect(() => {
+    if (!isHome) {
+      setHasLeftHome(true);
+    } else if (getHasLeftHome()) {
+      setInCooldown(true);
+      const timer = setTimeout(() => setInCooldown(false), 800);
+      return () => clearTimeout(timer);
+    }
+  }, [isHome]);
+  
+  const showAvatarOnHover = isHome && !inCooldown;
 
   return (
     <nav className={styles.nav}>
@@ -20,6 +61,7 @@ export function Nav() {
           className={styles.logo}
           aria-label="Home"
           data-show-back={!isHome}
+          data-show-avatar={showAvatarOnHover}
         >
           <Image
             src="/images/personal/mb-white.svg"
@@ -28,6 +70,15 @@ export function Nav() {
             height={24}
             className={styles.logoIcon}
             priority
+          />
+          <Image
+            src="/images/personal/avatar.jpg"
+            alt=""
+            width={78}
+            height={78}
+            className={styles.avatar}
+            quality={100}
+            aria-hidden="true"
           />
           <span className={styles.logoArrow} aria-hidden="true">
             <svg
@@ -45,7 +96,32 @@ export function Nav() {
         {isCaseStudy && (
           <>
             <span className={styles.divider} aria-hidden="true" />
-            <span className={styles.tag}>Case study</span>
+            <div className={styles.archiveTags}>
+              <span className={styles.tag}>Case study</span>
+              {activeProject && (
+                <ProjectSwitcher
+                  activeProject={activeProject}
+                  onSelect={(slug) => router.push(`/projects/${slug}`)}
+                />
+              )}
+            </div>
+          </>
+        )}
+
+        {isArchive && (
+          <>
+            <span className={styles.divider} aria-hidden="true" />
+            {activeCategory ? (
+              <div className={styles.archiveTags}>
+                <Link href="/archive" className={styles.tagLink}>Archive</Link>
+                <CategorySwitcher
+                  activeCategory={activeCategory}
+                  onSelect={(slug) => router.push(`/archive/${slug}`)}
+                />
+              </div>
+            ) : (
+              <span className={styles.tag}>Archive</span>
+            )}
           </>
         )}
       </div>
@@ -73,5 +149,181 @@ export function Nav() {
         </BloomMenu>
       </div>
     </nav>
+  );
+}
+
+/* ----------------------------------------
+ * Category Switcher (archive pages only)
+ * ---------------------------------------- */
+
+interface CategorySwitcherProps {
+  activeCategory: { name: string; slug: string };
+  onSelect: (slug: string) => void;
+}
+
+function CategorySwitcher({ activeCategory, onSelect }: CategorySwitcherProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // Close on click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen]);
+
+  // Close on escape
+  useEffect(() => {
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') setIsOpen(false);
+    }
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
+    }
+  }, [isOpen]);
+
+  return (
+    <div className={styles.switcherWrapper} ref={wrapperRef}>
+      <button
+        className={styles.switcherTag}
+        onClick={() => setIsOpen(!isOpen)}
+        data-open={isOpen}
+        aria-expanded={isOpen}
+        aria-label={`Current category: ${activeCategory.name}. Switch category.`}
+      >
+        {activeCategory.name}
+        <ChevronDownIcon />
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className={styles.switcherDropdown}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
+          >
+            {[activeCategory, ...categories.filter(c => c.slug !== activeCategory.slug)].map((category) => (
+              <button
+                key={category.slug}
+                className={styles.switcherItem}
+                data-active={category.slug === activeCategory.slug}
+                onClick={() => {
+                  onSelect(category.slug);
+                  setIsOpen(false);
+                }}
+              >
+                {category.name}
+                <span className={styles.switcherCount}>{category.items.length}</span>
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+/* ----------------------------------------
+ * Project Switcher (case study pages)
+ * ---------------------------------------- */
+
+interface ProjectSwitcherProps {
+  activeProject: { title: string; slug: string };
+  onSelect: (slug: string) => void;
+}
+
+function ProjectSwitcher({ activeProject, onSelect }: ProjectSwitcherProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // Close on click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen]);
+
+  // Close on escape
+  useEffect(() => {
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') setIsOpen(false);
+    }
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
+    }
+  }, [isOpen]);
+
+  return (
+    <div className={styles.switcherWrapper} ref={wrapperRef}>
+      <button
+        className={styles.switcherTag}
+        onClick={() => setIsOpen(!isOpen)}
+        data-open={isOpen}
+        aria-expanded={isOpen}
+        aria-label={`Current project: ${activeProject.title}. Switch project.`}
+      >
+        {activeProject.title}
+        <ChevronDownIcon />
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className={styles.switcherDropdown}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
+          >
+            {[activeProject, ...projects.filter(p => p.slug !== activeProject.slug)].map((project) => (
+              <button
+                key={project.slug}
+                className={styles.switcherItem}
+                data-active={project.slug === activeProject.slug}
+                onClick={() => {
+                  onSelect(project.slug);
+                  setIsOpen(false);
+                }}
+              >
+                {project.title}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function ChevronDownIcon() {
+  return (
+    <svg
+      width={10}
+      height={10}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M6 9l6 6 6-6" />
+    </svg>
   );
 }

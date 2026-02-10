@@ -2,7 +2,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-8) 0;
+  padding: var(--space-4) 0;
+  padding-left: 1px;
+}
+
+@media (min-width: 640px) {
+  .nav {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
 }
 
 .left {
@@ -39,6 +47,30 @@
   }
 }
 
+.avatar {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  margin: -1px; /* Center the 26px avatar over the 24px logo space */
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: 
+    opacity var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.logo[data-show-avatar="true"]:hover .logoIcon {
+  opacity: 0;
+}
+
+.logo[data-show-avatar="true"]:hover .avatar {
+  opacity: 1;
+  transform: scale(1);
+}
+
 .logoArrow {
   position: absolute;
   display: flex;
@@ -73,6 +105,134 @@
   border-radius: 6px;
   padding: 2px 6px;
 }
+
+.tagLink {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--border-primary);
+  border-radius: 6px;
+  padding: 2px 6px;
+  text-decoration: none;
+  transition: 
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
+}
+
+.tagLink:hover {
+  color: var(--text-primary);
+  border-color: var(--text-quaternary);
+  text-decoration: none;
+}
+
+/* ========================================
+ * Archive Tags (link + category switcher)
+ * ======================================== */
+
+.archiveTags {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ========================================
+ * Category Switcher (archive pages)
+ * ======================================== */
+
+.switcherWrapper {
+  position: relative;
+}
+
+.switcherTag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 6px;
+  border-radius: 6px;
+  background: none;
+  cursor: pointer;
+  transition: 
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
+}
+
+.switcherTag:hover {
+  color: var(--text-primary);
+  border-color: var(--text-quaternary);
+  background-color: var(--bg-secondary);
+}
+
+.switcherTag[data-open="true"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.switcherDropdown {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 50;
+  min-width: 120px;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: 6px;
+  padding: var(--space-1);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.04);
+  transform-origin: top left;
+}
+
+@media (prefers-color-scheme: dark) {
+  .switcherDropdown {
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.3),
+      0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.switcherItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: 4px 6px 4px 6px;
+  border-radius: 4px;
+  font-size: var(--text-xs);
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.switcherItem:hover {
+  background-color: var(--bg-secondary);
+}
+
+.switcherItem[data-active="true"] {
+  color: var(--text-quaternary);
+}
+
+.switcherCount {
+  margin-left: auto;
+  font-size: var(--text-xs);
+  color: var(--text-quaternary);
+}
+
+/* ========================================
+ * Right Side
+ * ======================================== */
 
 .right {
   display: flex;

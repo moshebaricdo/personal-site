@@ -7,12 +7,116 @@
 }
 
 .heroSeparator {
-  width: 3rem;
-  height: 1px;
-  background-color: var(--border-primary);
-  border-radius: 1px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
   margin-top: var(--space-20);
   margin-bottom: var(--space-20);
+}
+
+.heroSeparatorRule {
+  flex: 1;
+  height: 1px;
+  background-color: var(--border-primary);
+}
+
+/* ========================================
+ * Detail Level Toggle (icon buttons — hidden)
+ * ======================================== */
+
+.detailToggle {
+  display: none;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.detailToggleButton {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--text-quaternary);
+  cursor: pointer;
+  border-radius: 0;
+  transition: color 150ms ease-out;
+}
+
+.detailToggleButton:hover {
+  color: var(--text-secondary);
+}
+
+.detailToggleButton[data-active] {
+  color: var(--text-primary);
+}
+
+.detailToggleButton:focus-visible {
+  outline: 2px solid var(--text-quaternary);
+  outline-offset: 2px;
+}
+
+.detailToggleButton:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ========================================
+ * Detail Level Segmented Control
+ * ======================================== */
+
+.segmentedControl {
+  display: flex;
+  position: relative;
+  border: 1px solid var(--border-primary);
+  border-radius: 999px;
+  padding: 3px;
+  background: var(--bg-primary);
+}
+
+.segmentedIndicator {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc((100% - 6px) / 3);
+  height: calc(100% - 6px);
+  background: var(--bg-secondary);
+  border-radius: 999px;
+  transition: transform 200ms var(--ease-out);
+  pointer-events: none;
+}
+
+.segmentedButton {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--text-quaternary);
+  cursor: pointer;
+  border-radius: 999px;
+  transition: color 150ms ease-out;
+}
+
+.segmentedButton:hover {
+  color: var(--text-secondary);
+}
+
+.segmentedButton[data-active] {
+  color: var(--text-primary);
+}
+
+.segmentedButton:focus-visible {
+  outline: 2px solid var(--text-quaternary);
+  outline-offset: 2px;
+}
+
+.segmentedButton:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* First section after separator - no extra margin since separator provides it */
@@ -40,6 +144,13 @@
 .meta {
   display: flex;
   gap: var(--space-8);
+}
+
+@media (max-width: 640px) {
+  .meta {
+    flex-direction: column;
+    gap: var(--space-12);
+  }
 }
 
 .metaItem {
@@ -114,7 +225,6 @@
 
 .stackSection {
   margin-top: var(--space-12);
-  padding-bottom: var(--space-8);
 }
 
 .stackHeader {
@@ -153,17 +263,17 @@
  * ======================================== */
 
 .stackContainer {
-  position: relative;
+  display: grid;
   outline: none;
   border-radius: 8px;
+  /* Reserve space for the stacking offset (3 cards * 8px) */
+  padding-right: 24px;
+  padding-bottom: 24px;
 }
 
 .stackCard {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: calc(100% - 24px);
-  min-height: 126px;
+  grid-area: 1 / 1;
+  width: 100%;
   padding: var(--space-6);
   background: var(--bg-primary);
   border: 1px solid var(--border-primary);
@@ -183,7 +293,6 @@
 
 /* Active card */
 .stackCard[data-active="true"] {
-  position: relative;
   cursor: default;
   z-index: 100;
 }
@@ -217,18 +326,34 @@
   opacity: 0.9;
 }
 
-/* Mobile - no stacking, just show active */
+/* Mobile — swipeable with visual stack peek */
 @media (max-width: 640px) {
+  .stackContainer {
+    padding-right: 12px;
+    padding-bottom: 12px;
+    touch-action: pan-y;
+  }
+
   .stackCard {
     width: 100%;
-    transform: none !important;
-    opacity: 1 !important;
-    display: none;
-    cursor: pointer !important;
+    transform: translateX(calc(var(--stack-pos) * 4px)) translateY(calc(var(--stack-pos) * 4px)) !important;
+    opacity: calc(1 - var(--stack-pos) * 0.15) !important;
+    z-index: calc(10 - var(--stack-pos));
+    pointer-events: none;
+    cursor: default !important;
   }
-  
+
   .stackCard[data-active="true"] {
-    display: block;
+    pointer-events: auto;
+    z-index: 100;
+  }
+
+  .stackCard[style*="--stack-pos: 3"],
+  .stackCard[style*="--stack-pos: 4"],
+  .stackCard[style*="--stack-pos: 5"],
+  .stackCard[style*="--stack-pos: 6"],
+  .stackCard[style*="--stack-pos: 7"] {
+    visibility: hidden;
   }
 }
 
@@ -240,6 +365,7 @@
   position: relative;
   outline: none;
   border-radius: 8px;
+  padding-bottom: 24px;
 }
 
 .stackFigure {
@@ -313,18 +439,37 @@
   }
 }
 
-/* Mobile */
+/* Mobile — swipeable with visual stack peek */
 @media (max-width: 640px) {
-  .stackFigure {
-    width: 100%;
-    transform: none !important;
-    opacity: 1 !important;
-    display: none;
-    cursor: pointer !important;
+  .figureStackContainer {
+    display: grid;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    touch-action: pan-y;
   }
-  
+
+  .stackFigure {
+    grid-area: 1 / 1;
+    position: relative !important;
+    width: 100% !important;
+    transform: translateX(calc(var(--stack-pos) * 4px)) translateY(calc(var(--stack-pos) * 4px)) !important;
+    opacity: calc(1 - var(--stack-pos) * 0.15) !important;
+    z-index: calc(10 - var(--stack-pos));
+    pointer-events: none;
+    cursor: default !important;
+  }
+
   .stackFigure[data-active="true"] {
-    display: block;
+    pointer-events: auto;
+    z-index: 100;
+  }
+
+  .stackFigure[style*="--stack-pos: 3"],
+  .stackFigure[style*="--stack-pos: 4"],
+  .stackFigure[style*="--stack-pos: 5"],
+  .stackFigure[style*="--stack-pos: 6"],
+  .stackFigure[style*="--stack-pos: 7"] {
+    visibility: hidden;
   }
 }
 

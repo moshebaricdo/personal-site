@@ -1,11 +1,16 @@
 /* ========================================
  * Folder Archive
- * Three folders + expandable contents
+ * Three folders that link to category pages
  * ======================================== */
 
 .folderArchive {
   margin-bottom: var(--space-16);
+  min-height: 200px;
 }
+
+/* ========================================
+ * Folders Row
+ * ======================================== */
 
 .foldersRow {
   display: grid;
@@ -15,8 +20,18 @@
 
 @media (max-width: 640px) {
   .foldersRow {
-    grid-template-columns: 1fr;
-    gap: var(--space-8);
+    gap: var(--space-3);
+  }
+
+  .folderVisual {
+    aspect-ratio: 1 / 1;
+  }
+
+  .folderTag {
+    left: 8px;
+    bottom: 8px;
+    font-size: 10px;
+    padding: 3px 6px;
   }
 }
 
@@ -26,6 +41,12 @@
   padding: 0;
   cursor: pointer;
   text-align: left;
+  text-decoration: none;
+  display: block;
+}
+
+.folderButton:hover {
+  text-decoration: none;
 }
 
 .folderVisual {
@@ -113,112 +134,4 @@
     background: rgba(10, 10, 10, 0.65);
     border-color: rgba(255, 255, 255, 0.1);
   }
-}
-
-/* ----------------------------------------
- * Expanded panel
- * ---------------------------------------- */
-
-.folderPanel {
-  margin-top: var(--space-10);
-  padding-top: var(--space-6);
-  border-top: 1px solid var(--border-primary);
-  overflow: hidden;
-}
-
-.panelHeader {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-6);
-  margin-bottom: var(--space-6);
-}
-
-.panelTitle {
-  display: inline-flex;
-  align-items: baseline;
-  gap: var(--space-3);
-}
-
-.panelName {
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.panelCount {
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  color: var(--text-tertiary);
-}
-
-.panelClose {
-  background: none;
-  border: none;
-  padding: 0;
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  color: var(--text-tertiary);
-  cursor: pointer;
-  transition: color var(--duration-fast) var(--ease-out);
-}
-
-.panelClose:hover {
-  color: var(--text-primary);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  text-decoration-thickness: 1px;
-}
-
-/* ========================================
- * Dealt Cards Grid (expanded view)
- * ======================================== */
-
-.dealtGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: var(--space-4);
-}
-
-@media (max-width: 640px) {
-  .dealtGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-3);
-  }
-}
-
-.dealtCard {
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border-primary);
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-quaternary);
-  cursor: pointer;
-  transition: 
-    transform var(--duration-fast) var(--ease-out),
-    box-shadow var(--duration-fast) var(--ease-out),
-    border-color var(--duration-fast) var(--ease-out);
-}
-
-.dealtCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  border-color: var(--border-primary);
-}
-
-@media (prefers-color-scheme: dark) {
-  .dealtCard:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  }
-}
-
-/* ========================================
- * Shared: Placeholder Icon
- * ======================================== */
-
-.placeholderIcon {
-  opacity: 0.5;
 }

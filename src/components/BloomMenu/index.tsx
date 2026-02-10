@@ -84,43 +84,21 @@ export function BloomMenu({ children }: BloomMenuProps) {
         aria-expanded={isOpen}
       >
         <div className={styles.iconContainer}>
-          <AnimatePresence initial={false}>
-            {isOpen ? (
-              <motion.div
-                key="close"
-                className={styles.iconWrapper}
-                initial={{ opacity: 0, scale: 0.5, rotate: -90 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                exit={{ opacity: 0, scale: 0.5, rotate: 90 }}
-                transition={{ duration: 0.15, ease: 'easeOut' }}
-              >
-                <CloseIcon />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="hand"
-                className={styles.iconWrapper}
-                initial={{ opacity: 0, scale: 0.5, rotate: 90 }}
-                animate={{ 
-                  opacity: 1, 
-                  scale: 1,
-                  rotate: shouldWave ? [0, 16, -8, 10, 0] : 0,
-                }}
-                exit={{ opacity: 0, scale: 0.5, rotate: -90 }}
-                transition={{ 
-                  duration: 0.15, 
-                  ease: 'easeOut',
-                  rotate: shouldWave ? {
-                    duration: 0.5,
-                    ease: 'easeInOut',
-                  } : { duration: 0.15 }
-                }}
-                style={{ transformOrigin: 'bottom center' }}
-              >
-                <HandIcon />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <motion.div
+            className={styles.iconWrapper}
+            animate={{ 
+              rotate: shouldWave ? [0, 16, -8, 10, 0] : 0,
+            }}
+            transition={{ 
+              rotate: shouldWave ? {
+                duration: 0.5,
+                ease: 'easeInOut',
+              } : { duration: 0.15 }
+            }}
+            style={{ transformOrigin: 'bottom center' }}
+          >
+            <HandIcon />
+          </motion.div>
         </div>
       </button>
 
@@ -129,9 +107,9 @@ export function BloomMenu({ children }: BloomMenuProps) {
         {isOpen && (
           <motion.div
             className={styles.dropdown}
-            initial={{ opacity: 0, scale: 0.95, y: -4 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -4 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
           >
             <div className={styles.content}>

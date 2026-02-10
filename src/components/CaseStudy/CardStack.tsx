@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import styles from './CaseStudy.module.css';
 
 interface CardData {
@@ -15,6 +15,7 @@ interface CardStackProps {
 
 export function CardStack({ title, cards }: CardStackProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const touchRef = useRef({ startX: 0, startY: 0 });
 
   // Loop through cards
   const goNext = useCallback(() => setActiveIndex((i) => (i + 1) % cards.length), [cards.length]);
@@ -28,6 +29,21 @@ export function CardStack({ title, cards }: CardStackProps) {
     } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
       e.preventDefault();
       goPrev();
+    }
+  }, [goNext, goPrev]);
+
+  // Touch swipe navigation
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchRef.current.startX = e.touches[0].clientX;
+    touchRef.current.startY = e.touches[0].clientY;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    const dx = e.changedTouches[0].clientX - touchRef.current.startX;
+    const dy = e.changedTouches[0].clientY - touchRef.current.startY;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx > 0) goPrev();
+      else goNext();
     }
   }, [goNext, goPrev]);
 
@@ -51,6 +67,8 @@ export function CardStack({ title, cards }: CardStackProps) {
         role="region"
         aria-label={`${title} carousel, ${activeIndex + 1} of ${cards.length}`}
         onKeyDown={handleKeyDown}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         {cards.map((card, index) => {
           const stackPos = getStackPosition(index);

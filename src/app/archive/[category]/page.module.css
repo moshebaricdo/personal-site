@@ -1,0 +1,12 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* Container's margin:auto shrinks it in a flex column — force full width */
+.main > :global(.container) {
+  width: 100%;
+}

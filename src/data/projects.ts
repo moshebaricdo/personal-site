@@ -23,7 +23,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'code-org-cms',
-    title: 'Code.org CMS',
+    title: 'Code.org',
     description: 'Reimagining the marketing site with a modular page builder.',
     url: '/projects/code-org-cms',
   },

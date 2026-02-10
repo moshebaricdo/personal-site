@@ -107,3 +107,12 @@
 .link:hover .externalIcon {
   opacity: 1;
 }
+
+/* Hide hover-reveal elements on narrow viewports */
+@media (max-width: 639px) {
+  .badges,
+  .arrow,
+  .externalIcon {
+    display: none;
+  }
+}

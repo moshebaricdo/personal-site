@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
+import { BackToTop } from '@/components/BackToTop';
 
 export const metadata: Metadata = {
   title: {
@@ -46,6 +47,7 @@ export default function RootLayout({
       </head>
       <body>
         {children}
+        <BackToTop />
       </body>
     </html>
   );

@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { BloomMenu, BloomMenuItem } from '../BloomMenu';
 import { XIcon, GitHubIcon, LinkedInIcon } from '../icons';
 import { categories } from '../Archive/data';
+import type { CategoryData } from '../Archive/data';
 import { projects } from '@/data/projects';
 import styles from './Nav.module.css';
 
@@ -157,7 +158,7 @@ export function Nav() {
  * ---------------------------------------- */
 
 interface CategorySwitcherProps {
-  activeCategory: { name: string; slug: string };
+  activeCategory: CategoryData;
   onSelect: (slug: string) => void;
 }
 

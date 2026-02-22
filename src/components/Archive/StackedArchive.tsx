@@ -11,6 +11,11 @@ const folderTransition = {
   ease: [0, 0, 0.2, 1] as const,
 };
 
+const previewTransition = {
+  duration: 0.24,
+  ease: [0, 0, 0.2, 1] as const,
+};
+
 export function StackedArchive() {
   const [hoveredFolder, setHoveredFolder] = useState<CategorySlug | null>(null);
   const prefersReducedMotion = useReducedMotion();
@@ -31,22 +36,44 @@ export function StackedArchive() {
               aria-label={`View ${category.name} archive, ${category.items.length} items`}
             >
               <div className={styles.folderVisual}>
-                {/* Folder back */}
-                <div className={styles.folderBack} aria-hidden="true" />
+                {/* Folder back layer (tab + panel) */}
+                <div className={styles.folderBackLayer} aria-hidden="true">
+                  <div className={styles.folderBackTab} />
+                  <div className={styles.folderBackPanel} />
+                </div>
 
-                {/* Folder front */}
-                <div className={styles.folderFace} aria-hidden="true">
-                  <div className={styles.folderTab} />
+                {/* Preview card peeks out on hover */}
+                <div className={styles.folderContent} aria-hidden="true">
                   <motion.div
-                    className={styles.folderBody}
+                    className={styles.peekImage}
                     animate={isHovered ? 'hover' : 'closed'}
                     variants={{
-                      closed: { skewX: 0 },
-                      hover: prefersReducedMotion ? { skewX: 0 } : { skewX: -4 },
+                      closed: prefersReducedMotion
+                        ? { y: 30, opacity: 1, rotate: -1.5 }
+                        : { y: 40, opacity: 0.4, rotate: -1.5 },
+                      hover: prefersReducedMotion
+                        ? { y: 0, opacity: 0.9, rotate: -2.5 }
+                        : { y: -15, opacity: 1, rotate: 2.5 },
                     }}
-                    transition={folderTransition}
-                  />
+                    transition={previewTransition}
+                  >
+                    <span className={styles.peekGlyph} />
+                  </motion.div>
                 </div>
+
+                {/* Folder front layer (panel only) */}
+                <motion.div
+                  className={styles.folderFace}
+                  aria-hidden="true"
+                  animate={isHovered ? 'hover' : 'closed'}
+                  variants={{
+                    closed: { skewX: 0 },
+                    hover: prefersReducedMotion ? { skewX: 0 } : { skewX: -4 },
+                  }}
+                  transition={folderTransition}
+                >
+                  <div className={styles.folderFrontPanel} />
+                </motion.div>
 
                 {/* Tag label */}
                 <motion.span

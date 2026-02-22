@@ -1,7 +1,8 @@
-'use client';
+import type { Metadata } from 'next';
 
 import { Nav } from '@/components/Nav';
 import {
+  CaseStudyCover,
   CaseStudyHero,
   Chapter,
   CardStack,
@@ -13,11 +14,50 @@ import {
 } from '@/components/CaseStudy';
 import styles from '@/components/CaseStudy/CaseStudy.module.css';
 
+export const metadata: Metadata = {
+  title: 'Web Lab',
+  description: 'An AI-powered IDE for the next generation of coders.',
+  alternates: {
+    canonical: '/projects/web-lab',
+  },
+  openGraph: {
+    title: 'Web Lab',
+    description: 'An AI-powered IDE for the next generation of coders.',
+    url: '/projects/web-lab',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Web Lab',
+    description: 'An AI-powered IDE for the next generation of coders.',
+  },
+};
+
 export default function WebLab2CaseStudy() {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: 'Web Lab',
+    url: 'https://moshebari.com/projects/web-lab',
+    description: 'An AI-powered IDE for the next generation of coders.',
+    creator: {
+      '@type': 'Person',
+      name: 'Moshe Bari',
+    },
+    about: ['AI education', 'product design', 'developer tools'],
+  };
+
   return (
-    <DetailLevelProvider>
-      <main className="container">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <DetailLevelProvider>
+        <main className="container">
         <Nav />
+
+        <CaseStudyCover label="Web Lab 2 cover image" />
 
         <CaseStudyHero
           title="An AI-assisted web IDE built for safe, student-first learning"
@@ -263,11 +303,12 @@ export default function WebLab2CaseStudy() {
         <NextCaseStudy
           title="Code.org"
           description="Reimagining the marketing site with a modular page builder."
-          href="/projects/code-org-cms"
+          href="/projects/code-org"
         />
 
         <div className={styles.pageBottom} />
-      </main>
-    </DetailLevelProvider>
+        </main>
+      </DetailLevelProvider>
+    </>
   );
 }

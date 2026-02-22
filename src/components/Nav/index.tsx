@@ -26,33 +26,6 @@ export function Nav() {
   // Detect active project from URL
   const projectSlug = pathname?.match(/^\/projects\/([^/]+)/)?.[1];
   const activeProject = projects.find(p => p.slug === projectSlug);
-  
-  // Track if we've been to another page and just returned home
-  // Using sessionStorage because refs reset on component remount during navigation
-  const [inCooldown, setInCooldown] = useState(false);
-  
-  const getHasLeftHome = () => {
-    if (typeof window === 'undefined') return false;
-    return sessionStorage.getItem('hasLeftHome') === 'true';
-  };
-  
-  const setHasLeftHome = (value: boolean) => {
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem('hasLeftHome', String(value));
-    }
-  };
-  
-  useEffect(() => {
-    if (!isHome) {
-      setHasLeftHome(true);
-    } else if (getHasLeftHome()) {
-      setInCooldown(true);
-      const timer = setTimeout(() => setInCooldown(false), 800);
-      return () => clearTimeout(timer);
-    }
-  }, [isHome]);
-  
-  const showAvatarOnHover = isHome && !inCooldown;
 
   return (
     <nav className={styles.nav}>
@@ -62,7 +35,6 @@ export function Nav() {
           className={styles.logo}
           aria-label="Home"
           data-show-back={!isHome}
-          data-show-avatar={showAvatarOnHover}
         >
           <Image
             src="/images/personal/mb-white.svg"
@@ -71,15 +43,6 @@ export function Nav() {
             height={24}
             className={styles.logoIcon}
             priority
-          />
-          <Image
-            src="/images/personal/avatar.jpg"
-            alt=""
-            width={78}
-            height={78}
-            className={styles.avatar}
-            quality={100}
-            aria-hidden="true"
           />
           <span className={styles.logoArrow} aria-hidden="true">
             <svg

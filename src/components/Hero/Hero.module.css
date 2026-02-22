@@ -26,18 +26,16 @@
   max-width: 32rem;
 }
 
-/* Dim surrounding text when hovering an inline link */
-.bioGroup:has(.inlineLink:hover) {
+.bioGroup:has(.inlineLink:hover),
+.bioGroup:has(.emailCopy:hover) {
   color: var(--text-quaternary);
 }
 
-/* Links match surrounding text color by default */
 .inlineLink {
   color: inherit;
   text-decoration: none;
 }
 
-/* Hovered link stands out */
 .inlineLink:hover {
   color: var(--text-primary);
   text-decoration: underline;
@@ -45,21 +43,54 @@
   text-decoration-thickness: 1px;
 }
 
-/* Paper plane cursor for email link */
-.emailLink {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24'%3E%3Crect x='3' y='6' width='18' height='12' rx='1.5' fill='%23ffffff' stroke='%23171717' stroke-width='1.25'/%3E%3Cpath d='M3.5 7.5l8.5 5 8.5-5' fill='none' stroke='%23171717' stroke-width='1.25' stroke-linejoin='round'/%3E%3C/svg%3E") 8 8, pointer;
+.emailCopy {
+  display: inline-block;
 }
 
-.emailLink:hover {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24'%3E%3Crect x='3' y='6' width='18' height='12' rx='1.5' fill='%23ffffff' stroke='%23000000' stroke-width='1.25'/%3E%3Cpath d='M3.5 7.5l8.5 5 8.5-5' fill='none' stroke='%23000000' stroke-width='1.25' stroke-linejoin='round'/%3E%3C/svg%3E") 8 8, pointer;
+.emailCopyButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 18px 0 0;
+  margin-right: -18px;
+  border: none;
+  background: none;
+  font: inherit;
+  line-height: inherit;
+  cursor: pointer;
 }
 
-@media (prefers-color-scheme: dark) {
-  .emailLink {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24'%3E%3Crect x='3' y='6' width='18' height='12' rx='1.5' fill='%23171717' stroke='%23fafafa' stroke-width='1.25'/%3E%3Cpath d='M3.5 7.5l8.5 5 8.5-5' fill='none' stroke='%23fafafa' stroke-width='1.25' stroke-linejoin='round'/%3E%3C/svg%3E") 8 8, pointer;
-  }
+.copyIcon {
+  position: absolute;
+  right: 1px;
+  top: 55%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  transform: translateX(-4px) translateY(-50%);
+  opacity: 0;
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
 
-  .emailLink:hover {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24'%3E%3Crect x='3' y='6' width='18' height='12' rx='1.5' fill='%230a0a0a' stroke='%23ffffff' stroke-width='1.25'/%3E%3Cpath d='M3.5 7.5l8.5 5 8.5-5' fill='none' stroke='%23ffffff' stroke-width='1.25' stroke-linejoin='round'/%3E%3C/svg%3E") 8 8, pointer;
-  }
+.emailCopyButton:hover .copyIcon {
+  transform: translateX(0) translateY(-50%);
+  opacity: 1;
+}
+
+.emailCopyButton:focus-visible .copyIcon {
+  transform: translateX(0) translateY(-50%);
+  opacity: 1;
+}
+
+.emailPeriod {
+  pointer-events: none;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.emailCopy:hover + .emailPeriod {
+  opacity: 0;
 }

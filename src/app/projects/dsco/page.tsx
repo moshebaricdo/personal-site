@@ -1,7 +1,8 @@
-'use client';
+import type { Metadata } from 'next';
 
 import { Nav } from '@/components/Nav';
 import {
+  CaseStudyCover,
   CaseStudyHero,
   Chapter,
   CardStack,
@@ -13,11 +14,50 @@ import {
 } from '@/components/CaseStudy';
 import styles from '@/components/CaseStudy/CaseStudy.module.css';
 
+export const metadata: Metadata = {
+  title: 'DSCO',
+  description: 'The design system supporting 100M+ students and teachers.',
+  alternates: {
+    canonical: '/projects/dsco',
+  },
+  openGraph: {
+    title: 'DSCO',
+    description: 'The design system supporting 100M+ students and teachers.',
+    url: '/projects/dsco',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'DSCO',
+    description: 'The design system supporting 100M+ students and teachers.',
+  },
+};
+
 export default function DSCOCaseStudy() {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: 'DSCO',
+    url: 'https://moshebari.com/projects/dsco',
+    description: 'The design system supporting 100M+ students and teachers.',
+    creator: {
+      '@type': 'Person',
+      name: 'Moshe Bari',
+    },
+    about: ['design systems', 'education technology', 'product design'],
+  };
+
   return (
-    <DetailLevelProvider>
-      <main className="container">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <DetailLevelProvider>
+        <main className="container">
         <Nav />
+
+        <CaseStudyCover label="DSCO cover image" />
 
         <CaseStudyHero
           title="The design system supporting 100M+ students and teachers"
@@ -271,13 +311,14 @@ export default function DSCOCaseStudy() {
         <div className={styles.separator} />
 
         <NextCaseStudy
-          title="Web Lab 2"
+          title="Web Lab"
           description="An AI-powered IDE for the next generation of coders."
-          href="/projects/web-lab-2"
+          href="/projects/web-lab"
         />
 
         <div className={styles.pageBottom} />
-      </main>
-    </DetailLevelProvider>
+        </main>
+      </DetailLevelProvider>
+    </>
   );
 }

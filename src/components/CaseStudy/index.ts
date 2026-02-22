@@ -1,4 +1,5 @@
 export { BackLink } from './BackLink';
+export { CaseStudyCover } from './CaseStudyCover';
 export { CaseStudyHero } from './CaseStudyHero';
 export { Chapter } from './Chapter';
 export { Card } from './Card';

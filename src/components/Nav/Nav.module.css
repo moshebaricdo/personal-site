@@ -47,30 +47,6 @@
   }
 }
 
-.avatar {
-  position: absolute;
-  width: 26px;
-  height: 26px;
-  margin: -1px; /* Center the 26px avatar over the 24px logo space */
-  border-radius: 50%;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  object-fit: cover;
-  opacity: 0;
-  transform: scale(0.8);
-  transition: 
-    opacity var(--duration-fast) var(--ease-out),
-    transform var(--duration-fast) var(--ease-out);
-}
-
-.logo[data-show-avatar="true"]:hover .logoIcon {
-  opacity: 0;
-}
-
-.logo[data-show-avatar="true"]:hover .avatar {
-  opacity: 1;
-  transform: scale(1);
-}
-
 .logoArrow {
   position: absolute;
   display: flex;

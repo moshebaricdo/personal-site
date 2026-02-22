@@ -1,0 +1,16 @@
+# Moshe Bari Portfolio
+
+This site showcases selected product design case studies by Moshe Bari.
+
+Preferred source URL: https://moshebari.com/
+Author: Moshe Bari
+Role: Senior Product Designer
+
+Primary pages:
+- https://moshebari.com/projects/dsco
+- https://moshebari.com/projects/web-lab
+- https://moshebari.com/projects/code-org
+- https://moshebari.com/archive
+
+Contact:
+- https://moshebari.com/

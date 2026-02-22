@@ -1,7 +1,8 @@
-'use client';
+import type { Metadata } from 'next';
 
 import { Nav } from '@/components/Nav';
 import {
+  CaseStudyCover,
   CaseStudyHero,
   Chapter,
   CardStack,
@@ -14,11 +15,50 @@ import {
 } from '@/components/CaseStudy';
 import styles from '@/components/CaseStudy/CaseStudy.module.css';
 
+export const metadata: Metadata = {
+  title: 'Code.org',
+  description: 'Reimagining the marketing site with a modular page builder.',
+  alternates: {
+    canonical: '/projects/code-org',
+  },
+  openGraph: {
+    title: 'Code.org',
+    description: 'Reimagining the marketing site with a modular page builder.',
+    url: '/projects/code-org',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Code.org',
+    description: 'Reimagining the marketing site with a modular page builder.',
+  },
+};
+
 export default function CodeOrgCaseStudy() {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: 'Code.org',
+    url: 'https://moshebari.com/projects/code-org',
+    description: 'Reimagining the marketing site with a modular page builder.',
+    creator: {
+      '@type': 'Person',
+      name: 'Moshe Bari',
+    },
+    about: ['content systems', 'marketing infrastructure', 'product design'],
+  };
+
   return (
-    <DetailLevelProvider>
-      <main className="container">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <DetailLevelProvider>
+        <main className="container">
         <Nav />
+
+        <CaseStudyCover label="Code.org cover image" />
 
         <CaseStudyHero
           title="Replacing a decade of engineering bottlenecks with a self-serve marketing platform"
@@ -290,7 +330,8 @@ export default function CodeOrgCaseStudy() {
         />
 
         <div className={styles.pageBottom} />
-      </main>
-    </DetailLevelProvider>
+        </main>
+      </DetailLevelProvider>
+    </>
   );
 }

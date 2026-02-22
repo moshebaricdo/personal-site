@@ -25,6 +25,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${category.name} Archive`,
     description: `A visual collection of ${category.name.toLowerCase()} work.`,
+    alternates: {
+      canonical: `/archive/${category.slug}`,
+    },
   };
 }
 

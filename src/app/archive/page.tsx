@@ -6,6 +6,9 @@ import styles from './page.module.css';
 export const metadata: Metadata = {
   title: 'Archive',
   description: 'A visual collection of previous work spanning product and brand design.',
+  alternates: {
+    canonical: '/archive',
+  },
 };
 
 export default function ArchivePage() {

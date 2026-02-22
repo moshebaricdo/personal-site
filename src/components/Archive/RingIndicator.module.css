@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-4) var(--space-4) var(--space-8);
+  padding: 0;
   cursor: grab;
   user-select: none;
   touch-action: none;
@@ -26,13 +26,8 @@
 
 .track {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 8px;
-  transition: transform 200ms var(--ease-out);
-}
-
-.ring[data-dragging="true"] .track {
-  transition: none;
 }
 
 /* Fixed-width slot prevents layout shift on hover */

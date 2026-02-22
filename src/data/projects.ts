@@ -16,15 +16,15 @@ export const projects: Project[] = [
     url: '/projects/dsco',
   },
   {
-    slug: 'web-lab-2',
-    title: 'Web Lab 2',
+    slug: 'web-lab',
+    title: 'Web Lab',
     description: 'An AI-powered IDE for the next generation of coders.',
-    url: '/projects/web-lab-2',
+    url: '/projects/web-lab',
   },
   {
-    slug: 'code-org-cms',
+    slug: 'code-org',
     title: 'Code.org',
     description: 'Reimagining the marketing site with a modular page builder.',
-    url: '/projects/code-org-cms',
+    url: '/projects/code-org',
   },
 ];

@@ -8,14 +8,6 @@ interface BloomMenuProps {
   children?: React.ReactNode;
 }
 
-/**
- * Bloom-style Menu
- * 
- * An iOS-inspired morphing menu inspired by Josh Puckett's Bloom.
- * Features a waving hand icon that morphs into an X when open.
- * 
- * @see https://joshpuckett.me/bloom
- */
 export function BloomMenu({ children }: BloomMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);

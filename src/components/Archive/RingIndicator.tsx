@@ -23,9 +23,6 @@ export function RingIndicator({ count, activeIndex, onChangeIndex }: RingIndicat
   const pointerId = useRef<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Offset so the active tick is always at the center
-  const offset = (((count - 1) / 2) - activeIndex) * TICK_SPACING;
-
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
     pointerDown.current = true;
     didDrag.current = false;
@@ -89,10 +86,7 @@ export function RingIndicator({ count, activeIndex, onChangeIndex }: RingIndicat
       aria-label="Image navigator"
       tabIndex={0}
     >
-      <div
-        className={styles.track}
-        style={{ transform: `translateX(${offset}px)` }}
-      >
+      <div className={styles.track}>
         {Array.from({ length: count }, (_, i) => (
           <div key={i} className={styles.tickSlot}>
             <button

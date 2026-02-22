@@ -38,7 +38,7 @@ export function ArchiveLink() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.15 }}
               >
-                <BoxOpenIcon />
+                <FolderOpenIcon />
               </motion.div>
             ) : (
               <motion.div
@@ -49,7 +49,7 @@ export function ArchiveLink() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.15 }}
               >
-                <BoxClosedIcon />
+                <FolderClosedIcon />
               </motion.div>
             )}
           </AnimatePresence>
@@ -78,7 +78,7 @@ function ImageIcon() {
   );
 }
 
-function BoxClosedIcon() {
+function FolderClosedIcon() {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -89,21 +89,25 @@ function BoxClosedIcon() {
       strokeLinejoin="round"
       className={styles.closedIcon}
     >
-      <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
-      <path d="m3.3 7 8.7 5 8.7-5" />
-      <path d="M12 22V12" />
+      <path d="M3 7.5a2.5 2.5 0 0 1 2.5-2.5h2.2c.7 0 1.1-.2 1.5-.7l.5-.7c.4-.5.8-.7 1.5-.7h6.9a2.5 2.5 0 0 1 2.5 2.5v11A2.5 2.5 0 0 1 18.6 19H5.5A2.5 2.5 0 0 1 3 16.5v-9z" />
+      <path d="M3 9.5h18" />
     </svg>
   );
 }
 
-function BoxOpenIcon() {
+function FolderOpenIcon() {
   return (
     <svg
-      viewBox="0 0 640 640"
-      fill="currentColor"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={styles.openIcon}
     >
-      <path d="M293.8 421.8L304 397.9L304 547.5C301.3 546.5 298.7 545.4 296.2 543.9L136.2 452.5C121.2 444 112 428.1 112 410.9L112 359L248.5 437C265.1 446.5 286.3 439.4 293.8 421.8zM299.7 326.8L264.4 409.2L68.4 297.2L103.7 214.8L299.7 326.8zM128.2 192L296.2 96C311 87.6 329.1 87.6 343.8 96L511.8 192L320 301.6L128.2 192zM560 249.7L578.3 280.2C582.8 287.8 592.7 290.2 600.2 285.7C607.7 281.2 610.2 271.3 605.7 263.7L564.2 194.5C558.6 185.1 550.6 177.3 541.1 171.9L359.7 68.3C335.1 54.2 304.9 54.2 280.3 68.3L102 170.1C89.9 177 80.4 187.7 75 200.5L39 284.6C32.5 299.5 38.3 316.9 52.5 325L80.1 340.8L80.1 410.9C80.1 439.6 95.5 466.1 120.4 480.3L280.4 571.7C305 585.8 335.2 585.8 359.8 571.7L519.8 480.3C544.7 466.1 560.1 439.6 560.1 410.9L560.1 249.8zM336 329.3L528 219.5L528 410.9C528 428.1 518.8 444 503.8 452.6L343.8 544C341.3 545.4 338.6 546.6 336 547.6L336 329.3z"/>
+      <path d="M3 8.5a2.5 2.5 0 0 1 2.5-2.5h2.2c.7 0 1.1-.2 1.5-.7l.5-.7c.4-.5.8-.7 1.5-.7h6.9a2.5 2.5 0 0 1 2.2 1.3" />
+      <path d="M2.6 11.5a2 2 0 0 1 1.9-1.5h15.8a1.8 1.8 0 0 1 1.7 2.4l-1.4 4.4a2.6 2.6 0 0 1-2.5 1.9H5.4A2.6 2.6 0 0 1 3 16.9z" />
     </svg>
   );
 }

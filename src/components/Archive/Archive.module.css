@@ -52,34 +52,22 @@
 .folderVisual {
   position: relative;
   aspect-ratio: 4/3;
-  perspective: 500px;
+  isolation: isolate;
 }
 
 /* ----------------------------------------
  * Folder shape (simple + linear)
  * ---------------------------------------- */
 
-/* Back panel (visible when front folds open) */
-.folderBack {
-  position: absolute;
-  top: 12%;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border-primary);
-  border-radius: 6px;
-  z-index: 1;
-}
-
-.folderFace {
+/* Back layer (tab + panel) */
+.folderBackLayer {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 0;
   pointer-events: none;
 }
 
-.folderTab {
+.folderBackTab {
   position: absolute;
   top: 0;
   left: 0;
@@ -92,7 +80,7 @@
   border-top-right-radius: 6px;
 }
 
-.folderBody {
+.folderBackPanel {
   position: absolute;
   top: 12%;
   left: 0;
@@ -100,9 +88,69 @@
   bottom: 0;
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-primary);
+  border-top: none;
+  border-radius: 0px 6px 6px 6px;
+}
+
+.folderContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: visible;
+  clip-path: inset(-40px 0 0 0 round 6px);
   border-radius: 6px;
+}
+
+.peekImage {
+  width: 90%;
+  aspect-ratio: 4 / 3;
+  margin-top: 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border-primary);
+  background: var(--bg-tertiary);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform, opacity;
+}
+
+.peekGlyph {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--text-quaternary);
+  border-radius: 3px;
+  opacity: 0.55;
+}
+
+.folderFace {
+  position: absolute;
+  top: 12%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  pointer-events: none;
   transform-origin: bottom left;
   will-change: transform;
+}
+
+.folderFrontPanel {
+  position: absolute;
+  inset: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: 6px;
 }
 
 /* Tag label on the folder */
@@ -118,7 +166,7 @@
   color: var(--text-secondary);
   background: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(0, 0, 0, 0.08);
-  z-index: 3;
+  z-index: 30;
   transform-origin: bottom left;
   will-change: transform;
   transition: color var(--duration-fast) var(--ease-out);
@@ -133,5 +181,10 @@
     color: var(--text-primary);
     background: rgba(10, 10, 10, 0.65);
     border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .peekImage {
+    background: #121212;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
   }
 }

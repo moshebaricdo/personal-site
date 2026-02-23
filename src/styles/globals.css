@@ -135,6 +135,22 @@ a, button, [role="button"] {
  * Component Utilities
  * ======================================== */
 
+.text-load-in {
+  animation: textBlurInFocus var(--duration-fast) var(--ease-out) both;
+  animation-delay: calc(var(--duration-fast) / 2);
+}
+
+@keyframes textBlurInFocus {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
 .separator {
   width: 3rem;
   height: 1px;
@@ -142,6 +158,8 @@ a, button, [role="button"] {
   border-radius: 1px;
   margin-top: var(--space-6);
   margin-bottom: var(--space-6);
+  animation: textBlurInFocus var(--duration-fast) var(--ease-out) both;
+  animation-delay: calc(var(--duration-fast) / 2);
 }
 
 /* Hide scrollbar */

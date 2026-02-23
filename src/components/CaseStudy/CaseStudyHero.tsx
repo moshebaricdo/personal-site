@@ -13,7 +13,7 @@ interface CaseStudyHeroProps {
 
 export function CaseStudyHero({ tag, title, hook, meta }: CaseStudyHeroProps) {
   return (
-    <header className={styles.hero}>
+    <header className={`${styles.hero} ${styles.textLoadIn}`}>
       {tag && <p className={styles.tag}>{tag}</p>}
       <h1 className={styles.title}>{title}</h1>
       <p className={styles.hook}>{hook}</p>

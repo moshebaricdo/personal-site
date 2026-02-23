@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 
-import { Nav } from '@/components/Nav';
 import {
-  CaseStudyCover,
+  CaseStudyTop,
   CaseStudyHero,
   Chapter,
   CardStack,
@@ -55,9 +54,7 @@ export default function WebLab2CaseStudy() {
       />
       <DetailLevelProvider>
         <main className="container">
-        <Nav />
-
-        <CaseStudyCover label="Web Lab 2 cover image" />
+        <CaseStudyTop />
 
         <CaseStudyHero
           title="An AI-assisted web IDE built for safe, student-first learning"

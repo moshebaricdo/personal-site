@@ -1,18 +1,13 @@
 import styles from './CaseStudy.module.css';
 
 interface CaseStudyCoverProps {
-  label?: string;
   aspectRatio?: '16/9' | '4/3' | '3/2' | '1/1';
 }
 
-export function CaseStudyCover({
-  label,
-  aspectRatio = '16/9',
-}: CaseStudyCoverProps) {
+export function CaseStudyCover({ aspectRatio = '16/9' }: CaseStudyCoverProps) {
   return (
     <figure className={styles.cover}>
       <div className={styles.coverFrame} style={{ aspectRatio }}>
-        {label && <span className={styles.coverLabel}>{label}</span>}
         <svg
           width="48"
           height="48"

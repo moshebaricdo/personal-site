@@ -10,7 +10,7 @@ interface NextCaseStudyProps {
 
 export function NextCaseStudy({ title, description, href }: NextCaseStudyProps) {
   return (
-    <nav className={caseStudyStyles.nextSection} aria-label="Next case study">
+    <nav className={`${caseStudyStyles.nextSection} ${caseStudyStyles.textLoadIn}`} aria-label="Next case study">
       <span className={caseStudyStyles.nextLabel}>Next</span>
       <Link href={href} className={projectStyles.link}>
         <span className={projectStyles.title}>{title}</span>

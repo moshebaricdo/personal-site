@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Newsreader } from 'next/font/google';
 import '@/styles/globals.css';
 import 'dialkit/styles.css';
-import { DialRoot } from 'dialkit';
+import { DialKitRoot } from '@/components/DialKitRoot';
 import { BackToTop } from '@/components/BackToTop';
 
 const siteUrl = 'https://moshebari.com';
@@ -85,7 +85,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
         {children}
-        <DialRoot />
+        <DialKitRoot />
         <BackToTop />
       </body>
     </html>

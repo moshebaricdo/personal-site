@@ -9,7 +9,7 @@ interface ChapterProps {
 
 export function Chapter({ title, counter, className, children }: ChapterProps) {
   return (
-    <section className={`${styles.chapter}${className ? ` ${className}` : ''}`}>
+    <section className={`${styles.chapter} ${styles.textLoadIn}${className ? ` ${className}` : ''}`}>
       <div className={styles.chapterHeader}>
         <h2 className={styles.chapterTitle}>{title}</h2>
         {counter && (

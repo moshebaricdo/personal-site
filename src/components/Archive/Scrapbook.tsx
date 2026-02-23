@@ -450,7 +450,7 @@ export function Scrapbook({ category }: ScrapbookProps) {
         ))}
       </div>
 
-      <div className={styles.bottomControlsContainer}>
+      <div className={`${styles.bottomControlsContainer} text-load-in`}>
         <div className={styles.bottomControls}>
           <Link
             href={`/archive/${prevCategory.slug}`}

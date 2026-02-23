@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 
-import { Nav } from '@/components/Nav';
 import {
-  CaseStudyCover,
+  CaseStudyTop,
   CaseStudyHero,
   Chapter,
   CardStack,
@@ -56,9 +55,7 @@ export default function CodeOrgCaseStudy() {
       />
       <DetailLevelProvider>
         <main className="container">
-        <Nav />
-
-        <CaseStudyCover label="Code.org cover image" />
+        <CaseStudyTop />
 
         <CaseStudyHero
           title="Replacing a decade of engineering bottlenecks with a self-serve marketing platform"

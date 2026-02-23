@@ -1,6 +1,7 @@
 export { BackLink } from './BackLink';
 export { CaseStudyCover } from './CaseStudyCover';
 export { CaseStudyHero } from './CaseStudyHero';
+export { CaseStudyTop } from './CaseStudyTop';
 export { Chapter } from './Chapter';
 export { Card } from './Card';
 export { CardGrid } from './CardGrid';

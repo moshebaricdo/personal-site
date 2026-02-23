@@ -10,10 +10,12 @@ export default function HomePage() {
     <main className={styles.main}>
       <div className="container">
         <Nav />
-        <Hero />
+        <div className="text-load-in">
+          <Hero />
+        </div>
         <div className={`separator ${styles.heroSeparator}`} />
         
-        <Section id="work" title="Recent Work" className={styles.workSection}>
+        <Section id="work" title="Recent Work" className={`${styles.workSection} text-load-in`}>
           <ProjectList />
           <ArchiveLink />
         </Section>

@@ -17,7 +17,7 @@ export default function ArchivePage() {
       <div className="container">
         <Nav />
         
-        <header className={styles.header}>
+        <header className={`${styles.header} text-load-in`}>
           <h1 className={styles.title}>Archive</h1>
           <p className={styles.subtitle}>
             Previous work and experiments

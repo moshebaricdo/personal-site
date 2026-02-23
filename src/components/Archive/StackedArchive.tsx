@@ -21,7 +21,7 @@ export function StackedArchive() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section className={styles.folderArchive}>
+    <section className={`${styles.folderArchive} text-load-in`}>
       <div className={styles.foldersRow}>
         {categories.map((category) => {
           const isHovered = hoveredFolder === category.slug;

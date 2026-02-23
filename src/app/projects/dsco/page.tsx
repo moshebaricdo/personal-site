@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 
-import { Nav } from '@/components/Nav';
 import {
-  CaseStudyCover,
+  CaseStudyTop,
   CaseStudyHero,
   Chapter,
   CardStack,
@@ -55,9 +54,7 @@ export default function DSCOCaseStudy() {
       />
       <DetailLevelProvider>
         <main className="container">
-        <Nav />
-
-        <CaseStudyCover label="DSCO cover image" />
+        <CaseStudyTop />
 
         <CaseStudyHero
           title="The design system supporting 100M+ students and teachers"

@@ -28,7 +28,7 @@ export function Nav() {
   const activeProject = projects.find(p => p.slug === projectSlug);
 
   return (
-    <nav className={styles.nav}>
+    <nav className={`${styles.nav} text-load-in`}>
       <div className={styles.left}>
         <Link
           href="/"

@@ -55,7 +55,7 @@ export function CardStack({ title, cards }: CardStackProps) {
   };
 
   return (
-    <section className={styles.stackSection}>
+    <section className={`${styles.stackSection} ${styles.textLoadIn}`}>
       <div className={styles.stackHeader}>
         <h2 className={styles.stackTitle}>{title}</h2>
         <span className={styles.stackDivider} aria-hidden="true" />

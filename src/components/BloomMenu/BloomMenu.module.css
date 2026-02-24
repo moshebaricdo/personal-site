@@ -12,7 +12,7 @@
   background-color: transparent;
   border: none;
   border-radius: 8px;
-  color: var(--text-tertiary);
+  color: var(--text-quaternary);
   cursor: pointer;
   transition: 
     color var(--duration-fast) var(--ease-out),
@@ -20,7 +20,7 @@
 }
 
 .trigger:hover {
-  color: var(--text-primary);
+  color: var(--text-secondary);
 }
 
 /* Hide trigger when menu is open - dropdown replaces it */

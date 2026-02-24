@@ -174,56 +174,6 @@
   color: var(--text-primary);
 }
 
-/* ========================================
- * Detail Level Segmented Control
- * ======================================== */
-
-.segmentedControl {
-  display: flex;
-  position: relative;
-  border: 1px solid var(--border-primary);
-  border-radius: 999px;
-  padding: 3px;
-  background: var(--bg-primary);
-}
-
-.segmentedIndicator {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: calc((100% - 6px) / 3);
-  height: calc(100% - 6px);
-  background: var(--bg-secondary);
-  border-radius: 999px;
-  transition: transform 200ms var(--ease-out);
-  pointer-events: none;
-}
-
-.segmentedButton {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 24px;
-  padding: 0;
-  border: none;
-  background: none;
-  color: var(--text-quaternary);
-  cursor: pointer;
-  border-radius: 999px;
-  transition: color 150ms ease-out;
-}
-
-.segmentedButton:hover {
-  color: var(--text-secondary);
-}
-
-.segmentedButton[data-active] {
-  color: var(--text-primary);
-}
-
 /* First section after separator - no extra margin since separator provides it */
 .firstSection {
   margin-top: 0;
@@ -268,6 +218,56 @@
 .metaValue {
   font-size: var(--text-sm);
   color: var(--text-secondary);
+}
+
+/* ========================================
+ * Detail Level Segmented Control
+ * ======================================== */
+
+ .segmentedControl {
+  display: flex;
+  position: relative;
+  border: 1px solid var(--border-primary);
+  border-radius: 999px;
+  padding: 3px;
+  background: var(--bg-primary);
+}
+
+.segmentedIndicator {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc((100% - 6px) / 3);
+  height: calc(100% - 6px);
+  background: var(--bg-secondary);
+  border-radius: 999px;
+  transition: transform 200ms var(--ease-out);
+  pointer-events: none;
+}
+
+.segmentedButton {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--text-quaternary);
+  cursor: pointer;
+  border-radius: 999px;
+  transition: color 150ms ease-out;
+}
+
+.segmentedButton:hover {
+  color: var(--text-secondary);
+}
+
+.segmentedButton[data-active] {
+  color: var(--text-primary);
 }
 
 /* ========================================
@@ -375,6 +375,7 @@
   background: var(--bg-primary);
   border: 1px solid var(--border-primary);
   border-radius: 8px;
+  opacity: calc(1 - var(--stack-pos) * 0.2) !important;
   transition: 
     transform var(--duration-normal) var(--ease-out),
     opacity var(--duration-normal) var(--ease-out);
@@ -702,6 +703,11 @@
     margin-bottom: var(--space-8);
   }
 
+  .segmentedButton {
+    width: 36px;
+    height: 30px;
+  }
+
   .separator {
     margin-top: var(--space-8);
     margin-bottom: var(--space-8);
@@ -735,8 +741,8 @@
 
   .stackCard {
     width: 100%;
-    transform: translateX(calc(var(--stack-pos) * 4px)) translateY(calc(var(--stack-pos) * 4px)) !important;
-    opacity: calc(1 - var(--stack-pos) * 0.15) !important;
+    transform: translateX(calc(var(--stack-pos) * 6px)) translateY(calc(var(--stack-pos) * 6px)) !important;
+    opacity: calc(1 - var(--stack-pos) * 0.25) !important;
     z-index: calc(10 - var(--stack-pos));
     pointer-events: none;
     cursor: default !important;
@@ -766,8 +772,8 @@
     grid-area: 1 / 1;
     position: relative !important;
     width: 100% !important;
-    transform: translateX(calc(var(--stack-pos) * 4px)) translateY(calc(var(--stack-pos) * 4px)) !important;
-    opacity: calc(1 - var(--stack-pos) * 0.15) !important;
+    transform: translateX(calc(var(--stack-pos) * 6px)) translateY(calc(var(--stack-pos) * 6px)) !important;
+    opacity: calc(1 - var(--stack-pos) * 0.25) !important;
     z-index: calc(10 - var(--stack-pos));
     pointer-events: none;
     cursor: default !important;

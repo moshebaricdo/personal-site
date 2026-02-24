@@ -59,7 +59,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 25%;
+  width: 50%;
   min-width: 100px;
   z-index: 20;
   background: none;
@@ -231,11 +231,6 @@
 .categoryNavLink:hover {
   text-decoration: none;
   opacity: 1;
-}
-
-.categoryNavLink:focus-visible {
-  outline: 2px solid var(--text-primary);
-  outline-offset: 4px;
 }
 
 @media (max-width: 720px) {

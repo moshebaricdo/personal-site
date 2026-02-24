@@ -48,6 +48,9 @@ export function BackToTop() {
       onClick={scrollToTop}
       data-visible={isVisible}
       aria-label="Back to top"
+      aria-hidden={!isVisible}
+      tabIndex={isVisible ? 0 : -1}
+      disabled={!isVisible}
       type="button"
     >
       <svg

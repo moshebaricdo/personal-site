@@ -94,19 +94,19 @@ export function Nav() {
         <BloomMenu>
           <BloomMenuItem
             icon={<XIcon />}
-            onSelect={() => window.open('https://x.com/moshebari', '_blank')}
+            onSelect={() => window.open('https://x.com/imoshebari', '_blank')}
           >
             X / Twitter
           </BloomMenuItem>
           <BloomMenuItem
             icon={<GitHubIcon />}
-            onSelect={() => window.open('https://github.com/moshebari', '_blank')}
+            onSelect={() => window.open('https://github.com/moshebaricdo', '_blank')}
           >
             GitHub
           </BloomMenuItem>
           <BloomMenuItem
             icon={<LinkedInIcon />}
-            onSelect={() => window.open('https://linkedin.com/in/moshebari', '_blank')}
+            onSelect={() => window.open('https://www.linkedin.com/in/moshe-bari-887681108/', '_blank')}
           >
             LinkedIn
           </BloomMenuItem>

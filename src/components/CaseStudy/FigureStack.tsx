@@ -16,6 +16,7 @@ interface FigureStackProps {
 export function FigureStack({ title, figures }: FigureStackProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const touchRef = useRef({ startX: 0, startY: 0 });
+  const activeCaption = figures[activeIndex]?.caption ?? '';
 
   // Loop through figures
   const goNext = useCallback(() => setActiveIndex((i) => (i + 1) % figures.length), [figures.length]);
@@ -61,11 +62,15 @@ export function FigureStack({ title, figures }: FigureStackProps) {
         <span className={styles.stackDivider} aria-hidden="true" />
         <span className={styles.stackCounter}>{activeIndex + 1}/{figures.length}</span>
       </div>
+      <p className="sr-only" aria-live="polite">
+        {`${title} image ${activeIndex + 1} of ${figures.length}: ${activeCaption}`}
+      </p>
       <div
         className={styles.figureStackContainer}
         tabIndex={0}
         role="region"
-        aria-label={`${title} carousel, ${activeIndex + 1} of ${figures.length}`}
+        aria-roledescription="carousel"
+        aria-label={`${title} carousel, ${activeIndex + 1} of ${figures.length}. ${activeCaption}`}
         onKeyDown={handleKeyDown}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}

@@ -7,6 +7,7 @@ interface RingIndicatorProps {
   count: number;
   activeIndex: number;
   onChangeIndex: (index: number) => void;
+  itemLabels?: string[];
 }
 
 // Spacing between tick centers in pixels (tick width + gap)
@@ -14,7 +15,12 @@ const TICK_SPACING = 9;
 // Minimum drag distance before it counts as a drag vs a click
 const DRAG_THRESHOLD = 5;
 
-export function RingIndicator({ count, activeIndex, onChangeIndex }: RingIndicatorProps) {
+export function RingIndicator({
+  count,
+  activeIndex,
+  onChangeIndex,
+  itemLabels = [],
+}: RingIndicatorProps) {
   const [isDragging, setIsDragging] = useState(false);
   const pointerDown = useRef(false);
   const didDrag = useRef(false);
@@ -70,6 +76,32 @@ export function RingIndicator({ count, activeIndex, onChangeIndex }: RingIndicat
     }
   }, [onChangeIndex]);
 
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    let nextIndex = activeIndex;
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      nextIndex = Math.min(count - 1, activeIndex + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      nextIndex = Math.max(0, activeIndex - 1);
+    } else if (e.key === 'Home') {
+      nextIndex = 0;
+    } else if (e.key === 'End') {
+      nextIndex = count - 1;
+    } else {
+      return;
+    }
+
+    e.preventDefault();
+    if (nextIndex !== activeIndex) {
+      onChangeIndex(nextIndex);
+    }
+  }, [activeIndex, count, onChangeIndex]);
+
+  const activeLabel = itemLabels[activeIndex];
+  const valueText = activeLabel
+    ? `Image ${activeIndex + 1} of ${count}: ${activeLabel}`
+    : `Image ${activeIndex + 1} of ${count}`;
+
   return (
     <div
       ref={containerRef}
@@ -80,20 +112,23 @@ export function RingIndicator({ count, activeIndex, onChangeIndex }: RingIndicat
       onPointerCancel={handlePointerUp}
       data-dragging={isDragging}
       role="slider"
+      aria-orientation="horizontal"
       aria-valuemin={0}
       aria-valuemax={count - 1}
       aria-valuenow={activeIndex}
+      aria-valuetext={valueText}
       aria-label="Image navigator"
       tabIndex={0}
+      onKeyDown={handleKeyDown}
     >
-      <div className={styles.track}>
+      <div className={styles.track} aria-hidden="true">
         {Array.from({ length: count }, (_, i) => (
           <div key={i} className={styles.tickSlot}>
-            <button
+            <div
               className={styles.tick}
               data-active={i === activeIndex}
               onClick={() => handleTickClick(i)}
-              aria-label={`Go to image ${i + 1}`}
+              role="presentation"
             />
           </div>
         ))}

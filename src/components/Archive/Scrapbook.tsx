@@ -191,14 +191,36 @@ export function Scrapbook({ category }: ScrapbookProps) {
     if (canGoForward) setActiveIndex(i => i + 1);
   }, [canGoForward]);
 
+  // Use a layout-aware snap distance so small drags don't skip multiple slides.
+  const estimatedNeighborDistance = (
+    (BASE_IMAGE_WIDTH * controls.layout.activeScale) +
+    (BASE_IMAGE_WIDTH * controls.layout.inactiveScale)
+  ) / 2 + controls.layout.activeNeighborGap;
+  const dragSnapDistance = Math.max(120, estimatedNeighborDistance);
+
   // Avoid mount-time fan-out from stacked default transforms.
   useEffect(() => {
     setHasMounted(true);
   }, []);
 
-  // Keyboard navigation
+  // Keyboard navigation: keep arrows convenient without hijacking text inputs.
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
+
+      const target = e.target;
+      if (target instanceof HTMLElement) {
+        const tagName = target.tagName;
+        if (
+          target.isContentEditable ||
+          tagName === 'INPUT' ||
+          tagName === 'TEXTAREA' ||
+          tagName === 'SELECT'
+        ) {
+          return;
+        }
+      }
+
       if (e.key === 'ArrowLeft') {
         e.preventDefault();
         goBack();
@@ -247,7 +269,7 @@ export function Scrapbook({ category }: ScrapbookProps) {
       const delta = dragDeltaRef.current;
       const shift = calcSnapShift(
         delta,
-        controls.layout.activeNeighborGap,
+        dragSnapDistance,
         controls.drag.snapBias
       );
       const newIndex = Math.max(0, Math.min(items.length - 1, dragRef.current.startIndex + shift));
@@ -258,7 +280,7 @@ export function Scrapbook({ category }: ScrapbookProps) {
     dragDeltaRef.current = 0;
     setIsDragging(false);
     setDragDelta(0);
-  }, [controls.drag.snapBias, controls.layout.activeNeighborGap, items.length]);
+  }, [controls.drag.snapBias, dragSnapDistance, items.length]);
 
   // Projected index during drag — ring indicator follows in real time
   const projectedIndex = isDragging
@@ -266,7 +288,7 @@ export function Scrapbook({ category }: ScrapbookProps) {
         dragRef.current.startIndex +
           calcSnapShift(
             dragDelta,
-            controls.layout.activeNeighborGap,
+            dragSnapDistance,
             controls.drag.snapBias
           )
       ))
@@ -317,9 +339,6 @@ export function Scrapbook({ category }: ScrapbookProps) {
           data-direction="prev"
           data-disabled={!canGoBack}
           onClick={goBack}
-          role="button"
-          tabIndex={canGoBack ? 0 : -1}
-          aria-label="Previous image"
         />
 
         {/* Desktop: Images positioned from center with fixed spacing */}
@@ -427,9 +446,6 @@ export function Scrapbook({ category }: ScrapbookProps) {
           data-direction="next"
           data-disabled={!canGoForward}
           onClick={goForward}
-          role="button"
-          tabIndex={canGoForward ? 0 : -1}
-          aria-label="Next image"
         />
       </div>
 
@@ -466,6 +482,7 @@ export function Scrapbook({ category }: ScrapbookProps) {
             count={items.length}
             activeIndex={projectedIndex}
             onChangeIndex={setActiveIndex}
+            itemLabels={items.map((item) => item.caption)}
           />
 
           <Link

@@ -174,15 +174,6 @@
   color: var(--text-primary);
 }
 
-.detailToggleButton:focus-visible {
-  outline: 2px solid var(--text-quaternary);
-  outline-offset: 2px;
-}
-
-.detailToggleButton:focus:not(:focus-visible) {
-  outline: none;
-}
-
 /* ========================================
  * Detail Level Segmented Control
  * ======================================== */
@@ -231,15 +222,6 @@
 
 .segmentedButton[data-active] {
   color: var(--text-primary);
-}
-
-.segmentedButton:focus-visible {
-  outline: 2px solid var(--text-quaternary);
-  outline-offset: 2px;
-}
-
-.segmentedButton:focus:not(:focus-visible) {
-  outline: none;
 }
 
 /* First section after separator - no extra margin since separator provides it */
@@ -387,7 +369,6 @@
 
 .stackContainer {
   display: grid;
-  outline: none;
   border-radius: 8px;
   /* Reserve space for the stacking offset (3 cards * 8px) */
   padding-right: 24px;
@@ -418,6 +399,15 @@
 .stackCard[data-active="true"] {
   cursor: default;
   z-index: 100;
+}
+
+.stackContainer:focus-visible {
+  outline: none;
+}
+
+.stackContainer:focus-visible .stackCard[data-active="true"] {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* Non-active cards - clickable with circle arrow cursor (mirrored to point right) */
@@ -486,7 +476,6 @@
 
 .figureStackContainer {
   position: relative;
-  outline: none;
   border-radius: 8px;
   padding-bottom: 24px;
 }
@@ -510,6 +499,15 @@
   position: relative;
   cursor: default;
   z-index: 100;
+}
+
+.figureStackContainer:focus-visible {
+  outline: none;
+}
+
+.figureStackContainer:focus-visible .stackFigure[data-active="true"] .stackImagePlaceholder {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* Non-active figures - clickable with circle arrow cursor (mirrored to point right) */

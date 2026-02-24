@@ -16,6 +16,12 @@ const previewTransition = {
   ease: [0, 0, 0.2, 1] as const,
 };
 
+const categoryPreviewImage: Record<CategorySlug, string> = {
+  brand: '/images/archive/brand/archives-brand-cover.png',
+  product: '/images/archive/product/archives-product-cover.png',
+  print: '/images/archive/print/archives-print-cover.png',
+};
+
 export function StackedArchive() {
   const [hoveredFolder, setHoveredFolder] = useState<CategorySlug | null>(null);
   const prefersReducedMotion = useReducedMotion();
@@ -57,7 +63,14 @@ export function StackedArchive() {
                     }}
                     transition={previewTransition}
                   >
-                    <span className={styles.peekGlyph} />
+                    <span className={styles.peekOverlay} />
+                    <img
+                      src={categoryPreviewImage[category.slug]}
+                      alt=""
+                      className={styles.peekImageAsset}
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </motion.div>
                 </div>
 

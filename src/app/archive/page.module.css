@@ -33,7 +33,7 @@
 
 @media (max-width: 640px) {
   .main {
-    padding-bottom: var(--space-8);
+    padding-bottom: var(--space-4);
   }
 
   .header {

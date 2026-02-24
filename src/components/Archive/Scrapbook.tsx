@@ -163,6 +163,7 @@ export function Scrapbook({ category }: ScrapbookProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [dragDelta, setDragDelta] = useState(0);
   const [hasMounted, setHasMounted] = useState(false);
+  const [stageHeight, setStageHeight] = useState(0);
   const prefersReducedMotion = useReducedMotion();
   const stageRef = useRef<HTMLDivElement>(null);
   const dragDeltaRef = useRef(0);
@@ -201,6 +202,24 @@ export function Scrapbook({ category }: ScrapbookProps) {
   // Avoid mount-time fan-out from stacked default transforms.
   useEffect(() => {
     setHasMounted(true);
+  }, []);
+
+  // Keep image sizing tied to the actual stage height.
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+
+    const observer = new ResizeObserver((entries) => {
+      const nextHeight = entries[0]?.contentRect.height ?? 0;
+      setStageHeight(nextHeight);
+    });
+
+    observer.observe(stage);
+    setStageHeight(stage.clientHeight);
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   // Keyboard navigation: keep arrows convenient without hijacking text inputs.
@@ -332,6 +351,10 @@ export function Scrapbook({ category }: ScrapbookProps) {
         onPointerMove={handleStagePointerMove}
         onPointerUp={handleStagePointerUp}
         onPointerCancel={handleStagePointerUp}
+        style={{
+          '--stage-height': `${stageHeight}px`,
+          '--active-scale': controls.layout.activeScale,
+        } as React.CSSProperties}
       >
         {/* Left navigation zone - cursor only */}
         <div
@@ -428,7 +451,10 @@ export function Scrapbook({ category }: ScrapbookProps) {
               >
                 <div
                   className={styles.image}
-                  style={{ aspectRatio: item.aspectRatio || '4/3' }}
+                  style={{
+                    aspectRatio: item.aspectRatio || '4/3',
+                    '--item-aspect-ratio': getAspectRatioValue(item.aspectRatio),
+                  } as React.CSSProperties}
                 >
                   {isVisible && <PlaceholderIcon />}
                   {isVisible && (isActive || controls.captions.showInactive) && (

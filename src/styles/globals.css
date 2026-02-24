@@ -99,17 +99,17 @@ a, button, [role="button"] {
   padding-right: var(--space-4);
 }
 
+@media (max-width: 639px) {
+  .container {
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+  }
+}
+
 @media (min-width: 640px) {
   .container {
     padding-left: var(--space-6);
     padding-right: var(--space-6);
-  }
-}
-
-@media (min-width: 1024px) {
-  .container {
-    padding-left: var(--space-12);
-    padding-right: var(--space-12);
   }
 }
 

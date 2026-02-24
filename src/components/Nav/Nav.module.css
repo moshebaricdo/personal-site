@@ -1,3 +1,7 @@
+.pageBlur {
+  display: none;
+}
+
 .nav {
   position: relative;
   z-index: 30;
@@ -5,6 +9,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-4) 0;
+  padding-top: var(--space-8);
   padding-left: 1px;
 }
 
@@ -159,22 +164,33 @@
   left: 0px;
   z-index: 50;
   min-width: 120px;
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border-primary);
-  border-radius: 6px;
-  padding: var(--space-1);
-  box-shadow: 
-    0 4px 16px rgba(0, 0, 0, 0.08),
-    0 1px 3px rgba(0, 0, 0, 0.04);
+  background-color: var(--glass-menu-bg-fallback);
+  background-color: var(--glass-menu-bg);
+  border: 1px solid var(--glass-menu-border-fallback);
+  border-color: var(--glass-menu-border);
+  border-radius: var(--glass-menu-radius);
+  padding: var(--glass-menu-content-padding);
+  overflow: hidden;
+  box-shadow: var(--glass-menu-shadow);
+  backdrop-filter: blur(var(--glass-menu-blur)) saturate(var(--glass-menu-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-menu-blur)) saturate(var(--glass-menu-saturate));
   transform-origin: top left;
 }
 
 @media (prefers-color-scheme: dark) {
   .switcherDropdown {
-    box-shadow: 
-      0 4px 16px rgba(0, 0, 0, 0.3),
-      0 1px 3px rgba(0, 0, 0, 0.2);
+    background-color: var(--glass-menu-bg-dark);
+    border-color: var(--glass-menu-border-dark);
+    box-shadow: var(--glass-menu-shadow-dark);
   }
+}
+
+.switcherDropdown::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--glass-menu-highlight);
 }
 
 .switcherItem {
@@ -242,4 +258,59 @@
   color: var(--text-primary);
   background-color: var(--bg-secondary);
   text-decoration: none;
+}
+
+@media (max-width: 640px), (hover: none) and (pointer: coarse) {
+  .pageBlur {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(15px) saturate(125%);
+    -webkit-backdrop-filter: blur(20px) saturate(125%);
+  }
+
+  .logoIcon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .tag,
+  .tagLink,
+  .switcherTag {
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 8px;
+  }
+
+  .switcherTag {
+    min-height: 28px;
+  }
+
+  .switcherDropdown {
+    min-width: var(--glass-menu-mobile-min-width);
+    border-radius: var(--glass-menu-mobile-radius);
+    padding: var(--glass-menu-mobile-content-padding);
+    backdrop-filter: blur(var(--glass-menu-mobile-blur)) saturate(var(--glass-menu-mobile-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-menu-mobile-blur)) saturate(var(--glass-menu-mobile-saturate));
+  }
+
+  .switcherItem {
+    min-height: var(--glass-menu-mobile-item-min-height);
+    padding: var(--glass-menu-mobile-item-padding);
+    border-radius: var(--glass-menu-mobile-item-radius);
+    font-size: var(--text-base);
+  }
+
+  .switcherItem:active {
+    background-color: var(--bg-secondary);
+  }
+}
+
+@media (max-width: 640px) and (prefers-color-scheme: dark), (hover: none) and (pointer: coarse) and (prefers-color-scheme: dark) {
+  .pageBlur {
+    background: rgba(10, 10, 10, 0.24);
+  }
 }

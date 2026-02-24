@@ -6,9 +6,10 @@ import styles from './BloomMenu.module.css';
 
 interface BloomMenuProps {
   children?: React.ReactNode;
+  onOpenChange?: (isOpen: boolean) => void;
 }
 
-export function BloomMenu({ children }: BloomMenuProps) {
+export function BloomMenu({ children, onOpenChange }: BloomMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [canWave, setCanWave] = useState(true);
@@ -41,6 +42,14 @@ export function BloomMenu({ children }: BloomMenuProps) {
       return () => document.removeEventListener('keydown', handleEscape);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    onOpenChange?.(isOpen);
+  }, [isOpen, onOpenChange]);
+
+  useEffect(() => {
+    return () => onOpenChange?.(false);
+  }, [onOpenChange]);
 
   const handleClick = () => {
     if (isOpen) {

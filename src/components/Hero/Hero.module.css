@@ -94,3 +94,9 @@
 .emailCopy:hover + .emailPeriod {
   opacity: 0;
 }
+
+@media (max-width: 640px) {
+  .hero {
+    padding-top: var(--space-8);
+  }
+}

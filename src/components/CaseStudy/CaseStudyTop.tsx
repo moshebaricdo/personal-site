@@ -2,7 +2,7 @@
 
 import { useDialKit } from 'dialkit';
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Nav } from '@/components/Nav';
 import { CaseStudyCover } from './CaseStudyCover';
 import styles from './CaseStudy.module.css';
@@ -13,6 +13,7 @@ interface CaseStudyTopProps {
 
 export function CaseStudyTop({ aspectRatio = '16/9' }: CaseStudyTopProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const controls = useDialKit('Case Study Top', {
     sticky: {
@@ -50,22 +51,34 @@ export function CaseStudyTop({ aspectRatio = '16/9' }: CaseStudyTopProps) {
     target: rootRef,
     offset: ['start start', 'end start'],
   });
+  const disableInteractiveTop = prefersReducedMotion || isMobile;
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 640px)');
+    const update = () => setIsMobile(media.matches);
+    update();
+
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+
   const coverOpacity = useTransform(scrollYProgress, (value) => {
+    if (disableInteractiveTop) return 1;
     const start = Math.min(controls.fade.start, controls.fade.end - 0.001);
     const end = Math.max(controls.fade.end, start + 0.001);
     const t = Math.max(0, Math.min(1, (value - start) / (end - start)));
     return 1 - t * (1 - controls.fade.minOpacity);
   });
   const blurOpacity = useTransform(scrollYProgress, (value) => {
+    if (disableInteractiveTop) return 0;
     const start = Math.min(controls.blur.fadeStart, controls.blur.fadeEnd - 0.001);
     const end = Math.max(controls.blur.fadeEnd, start + 0.001);
     const t = Math.max(0, Math.min(1, (value - start) / (end - start)));
     return 1 - t;
   });
-  const stickyTrackHeight = Math.max(
-    0,
-    controls.sticky.overlayHeight + controls.sticky.stopOffset
-  );
+  const stickyTrackHeight = disableInteractiveTop
+    ? 0
+    : Math.max(0, controls.sticky.overlayHeight + controls.sticky.stopOffset);
 
   const styleVars = {
     '--cs-nav-sticky-top': `${controls.sticky.top}px`,
@@ -106,10 +119,10 @@ export function CaseStudyTop({ aspectRatio = '16/9' }: CaseStudyTopProps) {
         />
       </div>
       <motion.div
-        initial={prefersReducedMotion ? false : { opacity: 0, y: -controls.entry.distance }}
-        animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+        initial={disableInteractiveTop ? false : { opacity: 0, y: -controls.entry.distance }}
+        animate={disableInteractiveTop ? undefined : { opacity: 1, y: 0 }}
         transition={
-          prefersReducedMotion
+          disableInteractiveTop
             ? undefined
             : {
                 duration: controls.entry.duration,
@@ -117,7 +130,7 @@ export function CaseStudyTop({ aspectRatio = '16/9' }: CaseStudyTopProps) {
                 ease: [0, 0, 0.2, 1],
               }
         }
-        style={{ opacity: coverOpacity }}
+        style={{ opacity: disableInteractiveTop ? 1 : coverOpacity }}
       >
         <CaseStudyCover aspectRatio={aspectRatio} />
       </motion.div>

@@ -3,7 +3,6 @@ import { Nav } from '@/components/Nav';
 import { Hero } from '@/components/Hero';
 import { Section } from '@/components/Section';
 import { ProjectList } from '@/components/ProjectList';
-import { ArchiveLink } from '@/components/ArchiveLink';
 
 export default function HomePage() {
   return (
@@ -16,8 +15,7 @@ export default function HomePage() {
         <div className={`separator ${styles.heroSeparator}`} />
         
         <Section id="work" title="Recent Work" className={`${styles.workSection} text-load-in`}>
-          <ProjectList />
-          <ArchiveLink />
+          <ProjectList includeArchive />
         </Section>
         
       </div>

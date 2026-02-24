@@ -75,6 +75,36 @@
   --duration-fast: 150ms;
   --duration-normal: 250ms;
   --duration-slow: 400ms;
+
+  /* Shared glass menu */
+  --glass-menu-bg-fallback: rgba(255, 255, 255, 0.72);
+  --glass-menu-bg: color-mix(in srgb, var(--bg-primary) 98%, transparent);
+  --glass-menu-border-fallback: rgba(255, 255, 255, 0.24);
+  --glass-menu-border: color-mix(in srgb, var(--border-primary) 100%, transparent);
+  --glass-menu-radius: 6px;
+  --glass-menu-content-padding: var(--space-1);
+  --glass-menu-blur: 18px;
+  --glass-menu-saturate: 165%;
+  --glass-menu-shadow: 0 4px 16px rgba(59, 50, 50, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --glass-menu-highlight: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.14) 24%,
+    rgba(255, 255, 255, 0) 62%
+  );
+
+  --glass-menu-mobile-min-width: 176px;
+  --glass-menu-mobile-radius: 8px;
+  --glass-menu-mobile-content-padding: 6px;
+  --glass-menu-mobile-blur: 22px;
+  --glass-menu-mobile-saturate: 180%;
+  --glass-menu-mobile-item-min-height: 40px;
+  --glass-menu-mobile-item-padding: 8px 10px;
+  --glass-menu-mobile-item-radius: 6px;
+
+  --glass-menu-bg-dark: rgba(10, 10, 10, 0.62);
+  --glass-menu-border-dark: rgba(255, 255, 255, 0.16);
+  --glass-menu-shadow-dark: 0 14px 32px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.28);
   
   /* ========================================
    * Layout

@@ -1,13 +1,7 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-}
-
-@media (min-width: 640px) {
-  .list {
-    gap: var(--space-2);
-  }
+  gap: var(--space-2);
 }
 
 .item {
@@ -16,8 +10,8 @@
 
 .link {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
+  flex-direction: row;
+  gap: var(--space-2);
   padding: var(--space-3) var(--space-4);
   margin: 0 calc(-1 * var(--space-4));
   border-radius: 8px;
@@ -38,19 +32,12 @@
   opacity: 1;
 }
 
-@media (min-width: 640px) {
-  .link {
-    flex-direction: row;
-    align-items: baseline;
-    gap: var(--space-4);
-  }
-}
-
 .title {
   font-family: var(--font-serif);
-  font-size: var(--text-base);
+  font-size: 15px;
   color: var(--text-primary);
   flex-shrink: 0;
+  transform: translateY(2px);
 }
 
 .meta {
@@ -62,8 +49,9 @@
 }
 
 .description {
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   color: var(--text-tertiary);
+  transform: translateY(1.5px);
 }
 
 .badges {
@@ -72,7 +60,7 @@
   gap: var(--space-1);
   flex-shrink: 0;
   opacity: 0;
-  transition: opacity var(--duration-fast) var(--ease-out);
+  transition: opacity var(--duration-fast) var(--ease-in);
 }
 
 .badge {
@@ -85,7 +73,7 @@
   background-color: transparent;
   border: 1px solid var(--border-primary);
   border-radius: 4px;
-  transform: translateY(1px);
+  transform: translateY(2px);
 }
 
 .arrow {
@@ -108,11 +96,71 @@
   opacity: 1;
 }
 
+.iconWrapper {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  color: var(--text-quaternary);
+  transition: color var(--duration-fast) var(--ease-out);
+  align-self: center;
+}
+
+.folderIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.folderIcon svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  max-width: none;
+  max-height: none;
+}
+
+.folderOpen {
+  opacity: 0;
+}
+
+.folderClosed {
+  opacity: 1;
+}
+
+.link:hover .iconWrapper {
+  color: var(--text-secondary);
+}
+
+.link:hover .folderOpen {
+  opacity: 1;
+}
+
+.link:hover .folderClosed {
+  opacity: 0;
+}
+
 /* Hide hover-reveal elements on narrow viewports */
 @media (max-width: 639px) {
   .badges,
   .arrow,
-  .externalIcon {
+  .externalIcon,
+  .iconWrapper {
     display: none;
+  }
+
+  .list {
+    gap: var(--space-0);
+  }
+
+  .link {
+    flex-direction: column;
+    align-items: baseline;
+    gap: var(--space-1);
   }
 }

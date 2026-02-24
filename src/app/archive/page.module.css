@@ -30,3 +30,18 @@
 .pageBottom {
   height: var(--space-20);
 }
+
+@media (max-width: 640px) {
+  .main {
+    padding-bottom: var(--space-8);
+  }
+
+  .header {
+    padding-top: var(--space-8);
+  }
+
+  .heroSeparator {
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-12);
+  }
+}

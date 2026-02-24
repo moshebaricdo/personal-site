@@ -15,9 +15,13 @@ import styles from './Nav.module.css';
 export function Nav() {
   const pathname = usePathname();
   const router = useRouter();
+  const [isBloomMenuOpen, setIsBloomMenuOpen] = useState(false);
+  const [isCategorySwitcherOpen, setIsCategorySwitcherOpen] = useState(false);
+  const [isProjectSwitcherOpen, setIsProjectSwitcherOpen] = useState(false);
   const isHome = pathname === '/';
   const isCaseStudy = pathname?.startsWith('/projects/');
   const isArchive = pathname?.startsWith('/archive');
+  const hasOpenMenu = isBloomMenuOpen || isCategorySwitcherOpen || isProjectSwitcherOpen;
   
   // Detect active archive category from URL
   const archiveCategorySlug = pathname?.match(/^\/archive\/(\w+)/)?.[1];
@@ -28,7 +32,20 @@ export function Nav() {
   const activeProject = projects.find(p => p.slug === projectSlug);
 
   return (
-    <nav className={`${styles.nav} text-load-in`}>
+    <>
+      <AnimatePresence>
+        {hasOpenMenu && (
+          <motion.div
+            className={styles.pageBlur}
+            aria-hidden="true"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18, ease: [0, 0, 0.2, 1] }}
+          />
+        )}
+      </AnimatePresence>
+      <nav className={`${styles.nav} text-load-in`}>
       <div className={styles.left}>
         <Link
           href="/"
@@ -66,6 +83,7 @@ export function Nav() {
                 <ProjectSwitcher
                   activeProject={activeProject}
                   onSelect={(slug) => router.push(`/projects/${slug}`)}
+                  onOpenChange={setIsProjectSwitcherOpen}
                 />
               )}
             </div>
@@ -81,6 +99,7 @@ export function Nav() {
                 <CategorySwitcher
                   activeCategory={activeCategory}
                   onSelect={(slug) => router.push(`/archive/${slug}`)}
+                  onOpenChange={setIsCategorySwitcherOpen}
                 />
               </div>
             ) : (
@@ -91,7 +110,7 @@ export function Nav() {
       </div>
 
       <div className={styles.right}>
-        <BloomMenu>
+        <BloomMenu onOpenChange={setIsBloomMenuOpen}>
           <BloomMenuItem
             icon={<XIcon />}
             onSelect={() => window.open('https://x.com/imoshebari', '_blank')}
@@ -112,7 +131,8 @@ export function Nav() {
           </BloomMenuItem>
         </BloomMenu>
       </div>
-    </nav>
+      </nav>
+    </>
   );
 }
 
@@ -123,11 +143,14 @@ export function Nav() {
 interface CategorySwitcherProps {
   activeCategory: CategoryData;
   onSelect: (slug: string) => void;
+  onOpenChange?: (isOpen: boolean) => void;
 }
 
-function CategorySwitcher({ activeCategory, onSelect }: CategorySwitcherProps) {
+function CategorySwitcher({ activeCategory, onSelect, onOpenChange }: CategorySwitcherProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownShiftX, setDropdownShiftX] = useState(0);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close on click outside
   useEffect(() => {
@@ -153,6 +176,49 @@ function CategorySwitcher({ activeCategory, onSelect }: CategorySwitcherProps) {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    onOpenChange?.(isOpen);
+  }, [isOpen, onOpenChange]);
+
+  useEffect(() => {
+    return () => onOpenChange?.(false);
+  }, [onOpenChange]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setDropdownShiftX(0);
+      return;
+    }
+
+    const margin = 8;
+    let frameId = 0;
+
+    const measure = () => {
+      const dropdownEl = dropdownRef.current;
+      if (!dropdownEl) return;
+
+      const rect = dropdownEl.getBoundingClientRect();
+      let nextShift = 0;
+
+      if (rect.right > window.innerWidth - margin) {
+        nextShift = (window.innerWidth - margin) - rect.right;
+      }
+
+      if (rect.left + nextShift < margin) {
+        nextShift += margin - (rect.left + nextShift);
+      }
+
+      setDropdownShiftX(nextShift);
+    };
+
+    frameId = window.requestAnimationFrame(measure);
+    window.addEventListener('resize', measure);
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.removeEventListener('resize', measure);
+    };
+  }, [isOpen]);
+
   return (
     <div className={styles.switcherWrapper} ref={wrapperRef}>
       <button
@@ -169,10 +235,11 @@ function CategorySwitcher({ activeCategory, onSelect }: CategorySwitcherProps) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={dropdownRef}
             className={styles.switcherDropdown}
             initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1, x: dropdownShiftX }}
+            exit={{ opacity: 0, scale: 0.9, x: dropdownShiftX }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
           >
             {[activeCategory, ...categories.filter(c => c.slug !== activeCategory.slug)].map((category) => (
@@ -203,11 +270,14 @@ function CategorySwitcher({ activeCategory, onSelect }: CategorySwitcherProps) {
 interface ProjectSwitcherProps {
   activeProject: { title: string; slug: string };
   onSelect: (slug: string) => void;
+  onOpenChange?: (isOpen: boolean) => void;
 }
 
-function ProjectSwitcher({ activeProject, onSelect }: ProjectSwitcherProps) {
+function ProjectSwitcher({ activeProject, onSelect, onOpenChange }: ProjectSwitcherProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownShiftX, setDropdownShiftX] = useState(0);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close on click outside
   useEffect(() => {
@@ -233,6 +303,49 @@ function ProjectSwitcher({ activeProject, onSelect }: ProjectSwitcherProps) {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    onOpenChange?.(isOpen);
+  }, [isOpen, onOpenChange]);
+
+  useEffect(() => {
+    return () => onOpenChange?.(false);
+  }, [onOpenChange]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setDropdownShiftX(0);
+      return;
+    }
+
+    const margin = 8;
+    let frameId = 0;
+
+    const measure = () => {
+      const dropdownEl = dropdownRef.current;
+      if (!dropdownEl) return;
+
+      const rect = dropdownEl.getBoundingClientRect();
+      let nextShift = 0;
+
+      if (rect.right > window.innerWidth - margin) {
+        nextShift = (window.innerWidth - margin) - rect.right;
+      }
+
+      if (rect.left + nextShift < margin) {
+        nextShift += margin - (rect.left + nextShift);
+      }
+
+      setDropdownShiftX(nextShift);
+    };
+
+    frameId = window.requestAnimationFrame(measure);
+    window.addEventListener('resize', measure);
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.removeEventListener('resize', measure);
+    };
+  }, [isOpen]);
+
   return (
     <div className={styles.switcherWrapper} ref={wrapperRef}>
       <button
@@ -249,10 +362,11 @@ function ProjectSwitcher({ activeProject, onSelect }: ProjectSwitcherProps) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={dropdownRef}
             className={styles.switcherDropdown}
             initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1, x: dropdownShiftX }}
+            exit={{ opacity: 0, scale: 0.9, x: dropdownShiftX }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
           >
             {[activeProject, ...projects.filter(p => p.slug !== activeProject.slug)].map((project) => (

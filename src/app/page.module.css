@@ -11,3 +11,18 @@
 .workSection {
   margin-top: 5rem !important;
 }
+
+@media (max-width: 640px) {
+  .main {
+    padding-bottom: var(--space-8);
+  }
+
+  .heroSeparator {
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-12);
+  }
+
+  .workSection {
+    margin-top: var(--space-8) !important;
+  }
+}

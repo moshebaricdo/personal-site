@@ -52,25 +52,36 @@
   right: 0px;
   z-index: 50;
   min-width: 120px;
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border-primary);
-  border-radius: 6px;
-  box-shadow: 
-    0 4px 16px rgba(0, 0, 0, 0.08),
-    0 1px 3px rgba(0, 0, 0, 0.04);
+  background-color: var(--glass-menu-bg-fallback);
+  background-color: var(--glass-menu-bg);
+  border: 1px solid var(--glass-menu-border-fallback);
+  border-color: var(--glass-menu-border);
+  border-radius: var(--glass-menu-radius);
+  overflow: hidden;
+  box-shadow: var(--glass-menu-shadow);
+  backdrop-filter: blur(var(--glass-menu-blur)) saturate(var(--glass-menu-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-menu-blur)) saturate(var(--glass-menu-saturate));
   transform-origin: top right;
 }
 
 @media (prefers-color-scheme: dark) {
   .dropdown {
-    box-shadow: 
-      0 4px 16px rgba(0, 0, 0, 0.3),
-      0 1px 3px rgba(0, 0, 0, 0.2);
+    background-color: var(--glass-menu-bg-dark);
+    border-color: var(--glass-menu-border-dark);
+    box-shadow: var(--glass-menu-shadow-dark);
   }
 }
 
+.dropdown::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--glass-menu-highlight);
+}
+
 .content {
-  padding: var(--space-1);
+  padding: var(--glass-menu-content-padding);
 }
 
 .item {
@@ -101,4 +112,45 @@
 .icon svg {
   width: 14px;
   height: 14px;
+}
+
+/* Mobile touch ergonomics + subtle iOS-style treatment */
+@media (max-width: 640px), (hover: none) and (pointer: coarse) {
+  .trigger {
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+  }
+
+  .iconContainer {
+    width: 18px;
+    height: 18px;
+  }
+
+  .dropdown {
+    min-width: var(--glass-menu-mobile-min-width);
+    border-radius: var(--glass-menu-mobile-radius);
+    backdrop-filter: blur(var(--glass-menu-mobile-blur)) saturate(var(--glass-menu-mobile-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-menu-mobile-blur)) saturate(var(--glass-menu-mobile-saturate));
+  }
+
+  .content {
+    padding: var(--glass-menu-mobile-content-padding);
+  }
+
+  .item {
+    min-height: var(--glass-menu-mobile-item-min-height);
+    padding: var(--glass-menu-mobile-item-padding);
+    border-radius: var(--glass-menu-mobile-item-radius);
+    font-size: var(--text-base);
+  }
+
+  .item:active {
+    background-color: var(--bg-secondary);
+  }
+
+  .icon svg {
+    width: 16px;
+    height: 16px;
+  }
 }

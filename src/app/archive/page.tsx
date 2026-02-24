@@ -27,8 +27,6 @@ export default function ArchivePage() {
         <div className={`separator ${styles.heroSeparator}`} />
 
         <StackedArchive />
-        
-        <div className={styles.pageBottom} />
       </div>
     </main>
   );

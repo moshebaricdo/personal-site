@@ -3,6 +3,20 @@
   padding-bottom: var(--space-20);
 }
 
+.v1Main {
+  padding-bottom: var(--space-12);
+}
+
+.v1Container {
+  min-height: calc(65vh - var(--space-8));
+  display: flex;
+  flex-direction: column;
+}
+
+.v1Hero {
+  margin-top: auto;
+}
+
 .heroSeparator {
   margin-top: var(--space-20);
   margin-bottom: var(--space-20);
@@ -15,6 +29,14 @@
 @media (max-width: 640px) {
   .main {
     padding-bottom: var(--space-6);
+  }
+
+  .v1Main {
+    padding-bottom: var(--space-12);
+  }
+
+  .v1Container {
+    min-height: calc(95vh - var(--space-8));
   }
 
   .heroSeparator {

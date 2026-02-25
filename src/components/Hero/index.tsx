@@ -49,8 +49,8 @@ export function Hero() {
         </p>
 
         <p className={styles.bio}>
-          Over the past decade, I've collaborated with Amazon, Paramount, Lloyds of 
-          London, Hulu, PepsiCo, and others.
+          Over the past decade, I've partnered with startups and enterprise teams 
+          alike, including Amazon, Paramount, Lloyds of London, Hulu, and PepsiCo.
         </p>
 
         <p className={styles.bio}>

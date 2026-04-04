@@ -5,7 +5,7 @@ import { DialRoot } from 'dialkit';
 
 export function DialKitRoot() {
   const pathname = usePathname() ?? '';
-  const hideDialKit = pathname.startsWith('/projects/') || pathname.startsWith('/archive/');
+  const hideDialKit = pathname.startsWith('/projects/') || pathname.startsWith('/archive');
 
   if (hideDialKit) {
     return null;

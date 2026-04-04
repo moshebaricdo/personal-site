@@ -1,4 +1,5 @@
+export { FolderArchive } from './FolderArchive';
 export { StackedArchive } from './StackedArchive';
 export { Scrapbook } from './Scrapbook';
-export { categories, getCategoryBySlug } from './data';
-export type { CategorySlug, CategoryData, ArchiveItem } from './data';
+export { folders, getFolderBySlug, categories, getCategoryBySlug } from './data';
+export type { ArchiveFolder, ArchiveItem, CategorySlug, CategoryData } from './data';

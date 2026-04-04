@@ -1,40 +1,47 @@
 /* ========================================
  * Folder Archive
- * Three folders that link to category pages
+ * Single-page archive with in-place open/close
  * ======================================== */
 
-.folderArchive {
-  margin-bottom: var(--space-16);
+.archive {
+  position: relative;
   min-height: 200px;
+  margin-bottom: var(--space-16);
 }
 
 /* ========================================
- * Folders Row
+ * Folder Grid
  * ======================================== */
 
-.foldersRow {
+.foldersGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-6);
 }
 
-@media (max-width: 640px) {
-  .foldersRow {
+.foldersGridHidden {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .foldersGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-6);
-  }
-
-  .folderVisual {
-    aspect-ratio: 1 / 1;
-  }
-
-  .folderTag {
-    left: 8px;
-    bottom: 8px;
-    font-size: 10px;
-    padding: 3px 6px;
   }
 }
+
+@media (max-width: 480px) {
+  .foldersGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
+ * Folder Card (button wrapper)
+ * ======================================== */
 
 .folderButton {
   background: none;
@@ -42,13 +49,17 @@
   padding: 0;
   cursor: pointer;
   text-align: left;
-  text-decoration: none;
   display: block;
+  width: 100%;
 }
 
 .folderButton:hover {
   text-decoration: none;
 }
+
+/* ========================================
+ * Folder Visual (layoutId element)
+ * ======================================== */
 
 .folderVisual {
   position: relative;
@@ -57,10 +68,9 @@
 }
 
 /* ----------------------------------------
- * Folder shape (simple + linear)
+ * Folder shape — back layer (tab + panel)
  * ---------------------------------------- */
 
-/* Back layer (tab + panel) */
 .folderBackLayer {
   position: absolute;
   inset: 0;
@@ -93,12 +103,16 @@
   border-radius: 0px 6px 6px 6px;
 }
 
+/* ----------------------------------------
+ * Folder content — peek preview
+ * ---------------------------------------- */
+
 .folderContent {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 1;
+  bottom: 1px;
   z-index: 10;
   pointer-events: none;
   display: flex;
@@ -121,13 +135,6 @@
   will-change: transform, opacity;
 }
 
-.peekImageAsset {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
 .peekOverlay {
   position: absolute;
   inset: 0;
@@ -138,6 +145,10 @@
     transparent 35%
   );
 }
+
+/* ----------------------------------------
+ * Folder front face
+ * ---------------------------------------- */
 
 .folderFace {
   position: absolute;
@@ -154,15 +165,15 @@
 .folderFrontPanel {
   position: absolute;
   inset: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-primary);
   border-radius: 6px;
 }
 
-/* Tag label on the folder */
+/* ----------------------------------------
+ * Folder tag label
+ * ---------------------------------------- */
+
 .folderTag {
   position: absolute;
   left: 12px;
@@ -185,6 +196,369 @@
   color: var(--text-primary);
 }
 
+@media (max-width: 640px) {
+  .folderVisual {
+    aspect-ratio: 1 / 1;
+  }
+
+  .folderTag {
+    left: 8px;
+    bottom: 8px;
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+}
+
+/* ========================================
+ * Open Folder
+ * ======================================== */
+
+.openFolderWrapper {
+  position: relative;
+}
+
+.openFolder {
+  display: flex;
+  flex-direction: column;
+  min-height: max(55vh, 420px);
+  overflow: hidden;
+}
+
+.openFolderHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--border-primary);
+  flex-shrink: 0;
+}
+
+.openFolderTitle {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.openFolderCount {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  font-weight: 400;
+}
+
+.openFolderClose {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+
+.openFolderClose:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-tertiary);
+}
+
+.openFolderBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+@media (max-width: 640px) {
+  .openFolder {
+    min-height: auto;
+  }
+
+  .openFolderHeader {
+    padding: var(--space-2) var(--space-4);
+  }
+}
+
+/* ========================================
+ * Folder Interior
+ * Tabbed card stack — peeking into a folder
+ * ======================================== */
+
+.folderInterior {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Inner shadow at top — depth cue from the "lid" */
+.openFolderBody {
+  position: relative;
+}
+
+.openFolderBody::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.05), transparent);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ----------------------------------------
+ * Desktop viewer (tabs + card stack)
+ * ---------------------------------------- */
+
+.desktopViewer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  padding: var(--space-4) var(--space-5) var(--space-3);
+}
+
+@media (max-width: 720px) {
+  .desktopViewer {
+    display: none;
+  }
+}
+
+/* ----------------------------------------
+ * Tab strip — file folder tabs
+ * ---------------------------------------- */
+
+.tabStrip {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
+  padding-bottom: 0;
+}
+
+.tabStrip::-webkit-scrollbar {
+  display: none;
+}
+
+.fileTab {
+  padding: 5px 14px;
+  border: 1px solid var(--border-primary);
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  background: var(--bg-tertiary);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  min-width: 36px;
+  text-align: center;
+  flex-shrink: 0;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.fileTab:hover:not([data-active='true']) {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+.fileTab[data-active='true'] {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-weight: 500;
+  position: relative;
+}
+
+/* Erase the card area's top border below the active tab */
+.fileTab[data-active='true']::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--bg-primary);
+}
+
+/* ----------------------------------------
+ * Card area — stacked file cards
+ * ---------------------------------------- */
+
+.cardArea {
+  position: relative;
+  flex: 1;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardStack {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border: 1px solid var(--border-primary);
+  border-radius: 0 4px 4px 4px;
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+.fileCard {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  will-change: transform;
+}
+
+.cardImage {
+  max-width: min(460px, 100%);
+  max-height: 100%;
+  width: auto;
+  position: relative;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-quaternary);
+  border-radius: 6px;
+}
+
+.cardCaption {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-3);
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid var(--border-primary);
+  backdrop-filter: blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.placeholderIcon {
+  opacity: 0.4;
+}
+
+/* ----------------------------------------
+ * Stack edges — visible paper edges below
+ * ---------------------------------------- */
+
+.stackEdges {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 3px 3px 0;
+  flex-shrink: 0;
+}
+
+.stackEdge {
+  height: 2px;
+  background: var(--border-primary);
+  border-radius: 0 0 2px 2px;
+}
+
+/* ----------------------------------------
+ * Item counter + prev/next
+ * ---------------------------------------- */
+
+.itemCounter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0 0;
+  flex-shrink: 0;
+}
+
+.counterLabel {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+  min-width: 3.5em;
+  text-align: center;
+}
+
+.counterNav {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out);
+}
+
+.counterNav:hover:not(:disabled) {
+  color: var(--text-primary);
+}
+
+.counterNav:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* ----------------------------------------
+ * Mobile vertical stack
+ * ---------------------------------------- */
+
+.mobileStack {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  overflow-y: auto;
+}
+
+@media (max-width: 720px) {
+  .mobileStack {
+    display: flex;
+  }
+}
+
+.mobileCard {
+  position: relative;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-quaternary);
+  border-radius: 6px;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+/* ========================================
+ * Dark mode
+ * ======================================== */
+
 @media (prefers-color-scheme: dark) {
   .folderTag {
     color: var(--text-primary);
@@ -196,5 +570,34 @@
     border-color: rgba(255, 255, 255, 0.1);
     background: #121212;
     box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
+  }
+
+  .cardCaption {
+    color: var(--text-primary);
+    background: rgba(10, 10, 10, 0.6);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .openFolderBody::before {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.12), transparent);
+  }
+
+  .fileTab {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .fileTab:hover:not([data-active='true']) {
+    background: rgba(255, 255, 255, 0.07);
+  }
+}
+
+/* ========================================
+ * Reduced motion
+ * ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .fileCard {
+    transition: none;
   }
 }

@@ -1,64 +1,88 @@
-export type CategorySlug = 'brand' | 'product' | 'print';
-
 export interface ArchiveItem {
   id: number;
   caption: string;
   aspectRatio?: '4/3' | '1/1' | '2/3';
 }
 
-export interface CategoryData {
+export interface ArchiveFolder {
   name: string;
-  slug: CategorySlug;
+  slug: string;
   items: ArchiveItem[];
 }
 
-export const categories: CategoryData[] = [
+export const folders: ArchiveFolder[] = [
   {
-    name: 'Brand',
-    slug: 'brand',
+    name: 'DSCO',
+    slug: 'dsco',
     items: [
-      { id: 1, caption: 'Brand guidelines cover' },
-      { id: 2, caption: 'Logo lockups', aspectRatio: '4/3' },
-      { id: 3, caption: 'Icon system', aspectRatio: '1/1' },
+      { id: 1, caption: 'Component library overview' },
+      { id: 2, caption: 'Token system', aspectRatio: '4/3' },
+      { id: 3, caption: 'Icon set specimens', aspectRatio: '1/1' },
       { id: 4, caption: 'Color palette exploration' },
-      { id: 5, caption: 'Typography specimens', aspectRatio: '4/3' },
-      { id: 6, caption: 'Business card design' },
-      { id: 7, caption: 'Brand pattern', aspectRatio: '1/1' },
-      { id: 8, caption: 'Stationery suite' },
+      { id: 5, caption: 'Typography scale', aspectRatio: '4/3' },
+      { id: 6, caption: 'Button variants' },
+      { id: 7, caption: 'Form patterns', aspectRatio: '1/1' },
+      { id: 8, caption: 'Dark mode tokens' },
     ],
   },
   {
-    name: 'Product',
-    slug: 'product',
+    name: 'Web Lab',
+    slug: 'web-lab',
     items: [
-      { id: 9, caption: 'Dashboard overview' },
-      { id: 10, caption: 'Onboarding flow', aspectRatio: '4/3' },
-      { id: 11, caption: 'Settings panel' },
-      { id: 12, caption: 'Profile card', aspectRatio: '1/1' },
-      { id: 13, caption: 'Data visualization' },
-      { id: 14, caption: 'Mobile navigation', aspectRatio: '4/3' },
-      { id: 15, caption: 'Notification center' },
-      { id: 16, caption: 'Empty state', aspectRatio: '1/1' },
-      { id: 17, caption: 'Search results' },
-      { id: 18, caption: 'Detail view', aspectRatio: '4/3' },
-      { id: 19, caption: 'Component library' },
-      { id: 20, caption: 'Dark mode variant' },
+      { id: 9, caption: 'Editor prototype' },
+      { id: 10, caption: 'AI assist panel', aspectRatio: '4/3' },
+      { id: 11, caption: 'Code completion UI' },
+      { id: 12, caption: 'Preview pane', aspectRatio: '1/1' },
+      { id: 13, caption: 'Onboarding flow' },
+      { id: 14, caption: 'Student workspace', aspectRatio: '4/3' },
+    ],
+  },
+  {
+    name: 'Code.org',
+    slug: 'code-org',
+    items: [
+      { id: 15, caption: 'Page builder modules' },
+      { id: 16, caption: 'Hero explorations', aspectRatio: '4/3' },
+      { id: 17, caption: 'Navigation redesign' },
+      { id: 18, caption: 'Mobile responsive views', aspectRatio: '2/3' },
+      { id: 19, caption: 'Campaign landing page' },
+      { id: 20, caption: 'Illustration system', aspectRatio: '1/1' },
+      { id: 21, caption: 'Event page template', aspectRatio: '4/3' },
+    ],
+  },
+  {
+    name: 'Explorations',
+    slug: 'explorations',
+    items: [
+      { id: 22, caption: 'Brand guidelines cover' },
+      { id: 23, caption: 'Logo lockups', aspectRatio: '4/3' },
+      { id: 24, caption: 'Business card design' },
+      { id: 25, caption: 'Stationery suite' },
+      { id: 26, caption: 'Social templates', aspectRatio: '1/1' },
     ],
   },
   {
     name: 'Print',
     slug: 'print',
     items: [
-      { id: 21, caption: 'Event poster' },
-      { id: 22, caption: 'Album artwork', aspectRatio: '1/1' },
-      { id: 23, caption: 'Magazine spread', aspectRatio: '4/3' },
-      { id: 24, caption: 'Exhibition catalog' },
-      { id: 25, caption: 'Vinyl sleeve', aspectRatio: '1/1' },
-      { id: 26, caption: 'Zine cover' },
+      { id: 27, caption: 'Event poster' },
+      { id: 28, caption: 'Album artwork', aspectRatio: '1/1' },
+      { id: 29, caption: 'Magazine spread', aspectRatio: '4/3' },
+      { id: 30, caption: 'Exhibition catalog' },
+      { id: 31, caption: 'Vinyl sleeve', aspectRatio: '1/1' },
+      { id: 32, caption: 'Zine cover' },
     ],
   },
 ];
 
-export function getCategoryBySlug(slug: string): CategoryData | undefined {
-  return categories.find(c => c.slug === slug);
+export function getFolderBySlug(slug: string): ArchiveFolder | undefined {
+  return folders.find((f) => f.slug === slug);
+}
+
+// Legacy aliases — keeps StackedArchive, Scrapbook, and [category] page compiling
+export type CategorySlug = string;
+export type CategoryData = ArchiveFolder;
+export const categories = folders;
+export function getCategoryBySlug(slug: string) {
+  return getFolderBySlug(slug);
 }

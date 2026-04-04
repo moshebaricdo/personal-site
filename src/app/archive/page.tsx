@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { Nav } from '@/components/Nav';
-import { StackedArchive } from '@/components/Archive';
+import { FolderArchive } from '@/components/Archive';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export default function ArchivePage() {
 
         <div className={`separator ${styles.heroSeparator}`} />
 
-        <StackedArchive />
+        <FolderArchive />
       </div>
     </main>
   );

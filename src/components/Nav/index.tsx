@@ -93,18 +93,7 @@ export function Nav() {
         {isArchive && (
           <>
             <span className={styles.divider} aria-hidden="true" />
-            {activeCategory ? (
-              <div className={styles.archiveTags}>
-                <Link href="/archive" className={styles.tagLink}>Archive</Link>
-                <CategorySwitcher
-                  activeCategory={activeCategory}
-                  onSelect={(slug) => router.push(`/archive/${slug}`)}
-                  onOpenChange={setIsCategorySwitcherOpen}
-                />
-              </div>
-            ) : (
-              <span className={styles.tag}>Archive</span>
-            )}
+            <span className={styles.tag}>Archive</span>
           </>
         )}
       </div>

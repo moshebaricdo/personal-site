@@ -23,8 +23,6 @@
   font-size: var(--text-base);
   line-height: var(--leading-relaxed);
   color: inherit;
-  max-width: 32rem;
-  text-wrap: balance;
 }
 
 .bioGroup:has(.inlineLink:hover),

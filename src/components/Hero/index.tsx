@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { BlockRain } from '../BlockRain';
 import styles from './Hero.module.css';
 
 export function Hero() {
   const [isCopied, setIsCopied] = useState(false);
+  const [blockBurst, setBlockBurst] = useState(0);
   const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -41,7 +43,13 @@ export function Hero() {
       <div className={styles.bioGroup}>
         <p className={styles.bio}>
           Senior Product Designer at{' '}
-          <a href="https://code.org" className={styles.inlineLink} target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://code.org"
+            className={styles.inlineLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseEnter={() => setBlockBurst((n) => n + 1)}
+          >
             CodeAI
           </a>
           , where I lead design systems and shape the tools used by millions of students and teachers every day.
@@ -74,6 +82,8 @@ export function Hero() {
           </span>
         </p>
       </div>
+
+      <BlockRain trigger={blockBurst} />
     </header>
   );
 }

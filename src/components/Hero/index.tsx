@@ -48,9 +48,10 @@ export function Hero() {
         </p>
 
         <p className={styles.bio}>
-        My work connects strategy to execution: defining product direction, prototyping ideas in working form, and shaping the systems 
-        that hold it all together. I help founders and teams make sense of complexity and carry strong ideas through to cohesive experiences.
-
+          My work connects strategy to execution: defining product direction,
+          prototyping ideas in working form, and shaping the systems that hold
+          it all together. I help founders and teams make sense of complexity
+          and carry strong ideas through to cohesive experiences.
         </p>
 
         <p className={styles.bio}>

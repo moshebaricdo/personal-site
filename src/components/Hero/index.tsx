@@ -42,15 +42,15 @@ export function Hero() {
         <p className={styles.bio}>
           Senior Product Designer at{' '}
           <a href="https://code.org" className={styles.inlineLink} target="_blank" rel="noopener noreferrer">
-            Code.org
+            CodeAI
           </a>
-          , where I lead design systems and shape learning tools used by millions of 
-          students and teachers.
+          , where I lead design systems and shape the tools used by millions of students and teachers every day.
         </p>
 
         <p className={styles.bio}>
-          Over the past decade, I've worked with startups and enterprise teams 
-          alike, including Amazon, Paramount, Lloyds of London, Hulu, and PepsiCo.
+        My work connects strategy to execution: defining product direction, prototyping ideas in working form, and shaping the systems 
+        that hold it all together. I help founders and teams make sense of complexity and carry strong ideas through to cohesive experiences.
+
         </p>
 
         <p className={styles.bio}>

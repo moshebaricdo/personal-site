@@ -27,6 +27,20 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
+  icons: {
+    icon: [
+      {
+        url: '/images/personal/favicon-dark.svg',
+        type: 'image/svg+xml',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/images/personal/favicon-light.svg',
+        type: 'image/svg+xml',
+        media: '(prefers-color-scheme: dark)',
+      },
+    ],
+  },
   openGraph: {
     title: 'Moshe Bari — Product Designer',
     description: defaultDescription,

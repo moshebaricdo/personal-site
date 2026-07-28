@@ -49,7 +49,7 @@ export function Hero() {
         </p>
 
         <p className={styles.bio}>
-          Over the past decade, I've partnered with startups and enterprise teams 
+          Over the past decade, I've worked with startups and enterprise teams 
           alike, including Amazon, Paramount, Lloyds of London, Hulu, and PepsiCo.
         </p>
 

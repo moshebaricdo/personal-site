@@ -8,7 +8,7 @@
 }
 
 .v1Container {
-  min-height: calc(65vh - var(--space-8));
+  min-height: calc(68vh - var(--space-8));
   display: flex;
   flex-direction: column;
 }

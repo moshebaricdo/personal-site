@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import { Nav } from '@/components/Nav';
-import { FolderArchive } from '@/components/Archive';
+import Link from 'next/link';
+import { InfiniteCanvas } from '@/components/Archive';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
@@ -14,20 +14,15 @@ export const metadata: Metadata = {
 export default function ArchivePage() {
   return (
     <main className={styles.main}>
-      <div className="container">
-        <Nav />
-        
-        <header className={`${styles.header} text-load-in`}>
-          <h1 className={styles.title}>Archive</h1>
-          <p className={styles.subtitle}>
-            Previous work and experiments
-          </p>
-        </header>
+      <InfiniteCanvas />
 
-        <div className={`separator ${styles.heroSeparator}`} />
-
-        <FolderArchive />
-      </div>
+      <header className={`${styles.overlay} text-load-in`}>
+        <h1 className={styles.title}>Archive</h1>
+        <p className={styles.subtitle}>Previous work and experiments</p>
+        <Link href="/" className={styles.homeLink}>
+          Back to home
+        </Link>
+      </header>
     </main>
   );
 }
